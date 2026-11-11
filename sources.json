@@ -1,5 +1,5 @@
 {
-  "purpose": "Upstream repositories eng-flow copies skills from or credits. scripts/fetch-sources.mjs clones each into sources/ at its pinned commit, for reference only.",
+  "purpose": "Upstream repositories eng-flow copies skills from. scripts/fetch-sources.mjs clones each into sources/ at its pinned commit, for reference only.",
   "review_date": "2026-11-01",
   "repositories": [
     {
@@ -23,28 +23,6 @@
       "license": "MIT",
       "license_path": "LICENSE",
       "copyright": "Matt Pocock"
-    },
-    {
-      "name": "Addy Osmani",
-      "repo": "addyosmani/agent-skills",
-      "directory": "addyosmani-agent-skills",
-      "url": "https://github.com/addyosmani/agent-skills.git",
-      "commit": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e",
-      "sparse_scope": null,
-      "license": "MIT",
-      "license_path": "LICENSE",
-      "copyright": "Addy Osmani"
-    },
-    {
-      "name": "Superpowers",
-      "repo": "obra/superpowers",
-      "directory": "superpowers",
-      "url": "https://github.com/obra/superpowers.git",
-      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
-      "sparse_scope": null,
-      "license": "MIT",
-      "license_path": "LICENSE",
-      "copyright": "Jesse Vincent"
     },
     {
       "name": "tstack (Theo)",

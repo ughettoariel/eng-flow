@@ -18,14 +18,13 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 - `grill` and `wayfinder` are copied from it, and the ADR and glossary formats in `grill/references/` come from its `domain-modeling` skill.
 - `spec` and `slice` follow its spec and ticket skills: vertical slices with blockers, behaviour named instead of file paths.
 - `implement` and `diagnose` follow its test-first and diagnosing skills.
-- Ideas for skills still to come: its `implement-spec` for `orchestrate` and `close-epic`, and its retro for `retro`.
+- Its `implement-spec` is the base of the coming `orchestrate`.
 
 ## Addy Osmani's agent-skills
 
 [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), MIT.
 
 - One approval before a run: the owner approves the spec and tickets once, then the epic runs.
-- Coverage from definition to production, and its `security-and-hardening` skill as the base of the coming `harden`.
 
 ## Superpowers, by Jesse Vincent
 
@@ -40,7 +39,7 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 
 - `file-pr` and `leaving-pr-comments` are copied from it.
 - `verify-as-user` follows its proof standard from `full-send`: proof is what the agent observed in the session, and green mocked tests do not prove a UI works.
-- Bases for skills still to come: `full-stop` for `ship-ticket`, `sol-loop` for `review-loop`, and `babysit-pr`.
+- Its `full-stop` is the base of the coming `ship-ticket`.
 
 ## Software factory v2, by ZazenCodes
 
@@ -57,7 +56,3 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 - `code-review`: a reviewer that did not write the change, later rounds that read only the new diff and never repeat a finding, findings with file and line, and a plain verdict.
 - At most three review rounds before stepping back to question the approach.
 - A finding that repeats becomes a lint rule or a skill change, not another review comment.
-
-## roadmap.sh
-
-[roadmap.sh](https://roadmap.sh) inspired the look of `roadmap-diagram`. No content or assets are copied.

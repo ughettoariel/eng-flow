@@ -38,12 +38,12 @@ changes, for example `Created with <model> in <harness>.` Include subagent
 models that wrote part of the change. Use the model name the harness reports.
 If model identity is unavailable, name the harness without guessing a model.
 
-Run the `unslop` skill over the title and description, then check them, and
+Apply the rules of [unslop](../unslop/SKILL.md) to the title and description, then check them, and
 any quotes and attachments, for secrets and private details.
 
-When the change touches a UI directly, the description links the flow on the
-project's UI board, or carries a capture of what changed; an animation goes in
-as a short video. `verify-as-user` says which.
+When the change touches a UI directly, the description carries a capture of
+what changed, or links the flow on the project's UI board when
+`docs/agents/project.md` names one; an animation goes in as a short video.
 
 The repository's PR template and the PR rules in its `docs/agents/project.md`
 win over this layout; keep the "Created with" line.

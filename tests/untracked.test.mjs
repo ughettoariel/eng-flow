@@ -5,9 +5,9 @@ import path from 'node:path';
 import { test } from 'node:test';
 import { repo, shippedFiles } from './helpers.mjs';
 
-const UNTRACKED = ['.remember/', 'sources/', '.eng-flow/'];
+const UNTRACKED = ['sources/', '.eng-flow/'];
 
-test('.gitignore keeps session memory, source clones and local state out of the repository', () => {
+test('.gitignore keeps source clones and local state out of the repository', () => {
   const ignored = readFileSync(path.join(repo, '.gitignore'), 'utf8').split('\n');
   assert.deepEqual(
     UNTRACKED.filter((folder) => !ignored.includes(folder)),

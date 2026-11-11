@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-// SessionStart hook: lists the questions waiting in .eng-flow/questions/ of the project's main
-// checkout, so a new session offers to grill them. Prints nothing when there are none or when
-// the session is not in a git repository. Claude Code adds what a SessionStart hook prints to
-// the session's context.
+// SessionStart: lists the questions waiting in .eng-flow/questions/ of the project's main
+// checkout, so a new session offers to grill them; Claude Code adds what this prints to the
+// session's context. PostToolUse: a file just written under .eng-flow/ makes that folder ignore
+// itself before anything can commit it.
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -19,6 +19,20 @@ export function questionsFolder(cwd) {
   } catch {
     return null;
   }
+}
+
+// The folder ignores itself, as pytest does for .pytest_cache/, so a project that never edited
+// its .gitignore still cannot commit a question.
+export function ignoreItself(root) {
+  if (!root || !existsSync(root)) return;
+  const ignore = path.join(root, '.gitignore');
+  if (!existsSync(ignore)) writeFileSync(ignore, '*\n');
+}
+
+export function engFlowRoot(file) {
+  const marker = `${path.sep}.eng-flow${path.sep}`;
+  const at = typeof file === 'string' ? file.indexOf(marker) : -1;
+  return at === -1 ? null : file.slice(0, at + marker.length - 1);
 }
 
 export function pendingQuestions(folder) {
@@ -44,14 +58,21 @@ export function report(questions) {
   ].join('\n');
 }
 
-function sessionCwd() {
+function hookInput() {
   try {
-    return JSON.parse(readFileSync(0, 'utf8')).cwd ?? process.cwd();
+    return JSON.parse(readFileSync(0, 'utf8'));
   } catch {
-    return process.cwd();
+    return {};
   }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href) {
-  process.stdout.write(report(pendingQuestions(questionsFolder(sessionCwd()))));
+  const input = hookInput();
+  if (input.hook_event_name === 'PostToolUse') {
+    ignoreItself(engFlowRoot(input.tool_input?.file_path));
+  } else {
+    const folder = questionsFolder(input.cwd ?? process.cwd());
+    ignoreItself(folder && path.dirname(folder));
+    process.stdout.write(report(pendingQuestions(folder)));
+  }
 }

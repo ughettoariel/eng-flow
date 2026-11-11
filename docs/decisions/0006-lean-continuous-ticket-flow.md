@@ -4,4 +4,4 @@ Work moves as a continuous flow with no sprints, estimates or standups. A ticket
 
 ## Consequences
 
-- The board, the Definition of Ready check and `ef status` are not built yet; until then `slice` states the Ready rule in prose.
+- With `Tickets: github` in the project config, the states are a GitHub project board; other trackers keep their own states. There is no Definition of Ready check yet; `slice` states the Ready rule in prose.

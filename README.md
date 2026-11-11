@@ -5,7 +5,9 @@ An agent workflow for Claude Code, from an idea to a merged ticket. You decide w
 ## The flow
 
 ```text
-1  Once per project        setup-project writes the project's config               (coming)
+1  Once per project        setup-project writes docs/agents/project.md and asks whether
+                           to install the ticket flow on GitHub Issues, keep the tracker
+                           the project already uses, or work without one
 
 2  What to build           wayfinder   when the path is not clear: an epic of spikes
    with you                grill       settles open decisions with multiple-choice batches
@@ -22,28 +24,25 @@ An agent workflow for Claude Code, from an idea to a merged ticket. You decide w
                              file-pr       a draft PR into the epic, problem before fix
                              code-review   a reviewer that did not write it: PASS or FAIL
                              verify-as-user  each criterion walked in the running app
-                           ef pr land merges into the epic only with every check green  (coming)
-
-5  Close the epic          close-epic reviews the whole epic against main, then you merge  (coming)
-                           retro turns what failed into new checks                          (coming)
 ```
 
-Support skills, used when needed: `ui-quality` (UI rules with scored scans), `unslop` (plain writing), `leaving-pr-comments` and `roadmap-diagram`.
+Support skills, used when needed: `ui-quality` (UI rules with scored scans), `unslop` (plain writing) and `leaving-pr-comments`.
 
-Questions go to the session that needs them. When you are not there, they wait in `.eng-flow/questions/` of the project, and the next session that starts lists them and offers a grill. PRs and issues stay free of question comments.
+Questions go to the session that needs them. When you are not there, they wait in `.eng-flow/questions/` of the project, and the next session that starts lists them and offers a grill. The folder carries its own `.gitignore`, so it is never committed. PRs and issues stay free of question comments.
 
 ## Why
 
-Agents write code faster than a person can review it, so the limits are what keep the work reviewable: one session per ticket that you can open and steer, one outcome per epic, at most eight tickets per epic and three criteria per ticket, a work-in-progress limit, and a Definition of Done enforced by the command that lands a PR. Rules that must always hold are checks in code, not lines in a prompt. Each decision is an ADR in [docs/decisions/](docs/decisions/).
+Agents write code faster than a person can review it, so the limits are what keep the work reviewable: one session per ticket that you can open and steer, one outcome per epic, at most eight tickets per epic and three criteria per ticket, and a work-in-progress limit. Rules that must always hold are checks in code, not lines in a prompt. Each decision is an ADR in [docs/decisions/](docs/decisions/).
+
+[principles/](principles/) holds the few engineering rules that hold in any stack: testing, security, data and contracts, and agent docs. `implement` and `code-review` read the ones a change touches, and the project's own rules win where they disagree.
 
 ## What is here and what is coming
 
 | Available now | Coming |
 | --- | --- |
-| `grill`, `wayfinder`, `spec`, `slice` | `ef`: `check build`, `pr push`, `pr land`, `status`, `epic report` |
-| `diagnose`, `implement`, `file-pr`, `code-review`, `verify-as-user` | `ship-ticket`, `review-loop`, `harden` |
-| `ui-quality`, `unslop`, `leaving-pr-comments`, `roadmap-diagram` | `orchestrate`, the project board and the Definition of Ready check |
-| [principles/](principles/), the reasons behind `implement` and `code-review` | `close-epic`, `babysit-pr`, `retro`, `setup-project` |
+| `setup-project`, `grill`, `wayfinder`, `spec`, `slice` | `orchestrate` |
+| `diagnose`, `implement`, `file-pr`, `code-review`, `verify-as-user` | `ship-ticket` |
+| `ui-quality`, `unslop`, `leaving-pr-comments` | |
 | The SessionStart hook that lists pending questions | |
 
 ## Install
@@ -64,7 +63,7 @@ claude plugin install eng-flow@ughettoariel
 
 The skills load as `eng-flow:grill`, `eng-flow:spec` and so on. Update with `claude plugin marketplace update ughettoariel`; Claude Code installs a new version when `version` in `.claude-plugin/plugin.json` goes up.
 
-In each project that uses it, add `.eng-flow/` to its `.gitignore`. A project can describe itself in `docs/agents/project.md`: its `Checks` command, how to start and drive the app, and its UI board on Figma or Miro.
+In each project, run `setup-project` once. It writes `docs/agents/project.md` with the project's checks, how to run it, where its tickets live and its UI board, if it has one.
 
 ## Developing eng-flow
 

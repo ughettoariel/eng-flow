@@ -6,16 +6,7 @@ import { repo, shippedFiles } from './helpers.mjs';
 
 // Skills the README lists as coming. A skill or principle that names one points at something
 // the plugin does not have yet.
-const COMING = [
-  'orchestrate',
-  'ship-ticket',
-  'review-loop',
-  'harden',
-  'close-epic',
-  'babysit-pr',
-  'retro',
-  'setup-project',
-];
+const COMING = ['orchestrate', 'ship-ticket'];
 
 test('skills and principles name no skill the plugin does not have yet', () => {
   const named = new RegExp(`\`(${COMING.join('|')})\``);

@@ -6,7 +6,7 @@ A question waits in `.eng-flow/questions/` when the person who decides is not in
 echo "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.eng-flow/questions"
 ```
 
-The folder is never committed: the project's `.gitignore` lists `.eng-flow/`.
+The folder is never committed: it holds its own `.gitignore` with the single line `*`, as pytest does for `.pytest_cache/`. The plugin's hooks write it as soon as a file tool writes a question, and again at session start, so the project's own `.gitignore` needs no entry. Write questions with the file tool, not through the shell, so the hook sees them.
 
 ## One file per question
 

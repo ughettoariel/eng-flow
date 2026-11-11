@@ -9,7 +9,7 @@ The person deciding may not be a programmer. They decide by picking between opti
 
 ## Before asking
 
-Read the ticket, its epic and every doc or file the decision touches: the glossary (`CONTEXT.md`, or the file the project config names), the ADRs and the code. A fact the repo or the web can answer is yours to find, never a question: ask only for decisions. Research that is still running blocks only the questions that depend on it.
+Read the ticket, its epic and every doc or file the decision touches: the glossary (`CONTEXT.md`, or the `Glossary` line of `docs/agents/project.md`), the ADRs and the code. A fact the repo or the web can answer is yours to find, never a question: ask only for decisions. Research that is still running blocks only the questions that depend on it.
 
 ## The decision tree
 
@@ -32,4 +32,4 @@ Ask each batch in the session, through the harness's multiple-choice question to
 
 ## Done
 
-The frontier is empty: every decision has an answer or is listed as pending for someone named. Show a summary of the decisions and the pending questions and wait for a yes. Then record each decision, one line each and in English, in the ticket's `## Decisions` section, and delete the question file it answered. Close the ticket only when nothing is pending, or when told to.
+The frontier is empty: every decision has an answer or is listed as pending for someone named. Show a summary of the decisions and the pending questions and wait for a yes. Then record each decision, one line each and in English, in the ticket's `## Decisions` section (with `Tickets: none` in `docs/agents/project.md`, in the summary), and delete the question file it answered. Close the ticket only when nothing is pending, or when told to.

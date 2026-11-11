@@ -5,7 +5,7 @@ description: Turn work too large or too unclear to plan in one session into a Gi
 
 # Wayfinder
 
-`grill` settles the decisions of a plan that already has a shape. Wayfinder is for work you cannot plan yet: it files the unknowns as spikes of an epic and works them until the way to the goal is clear. It runs in the main thread, with the owner; research spikes go to subagents.
+`grill` settles the decisions of a plan that already has a shape. Wayfinder is for work you cannot plan yet: it files the unknowns as spikes of an epic and works them until the way to the goal is clear. It runs in the main thread, with the owner; research spikes go to subagents. Where tickets live follows the `Tickets` line of `docs/agents/project.md`, as [project-config](../setup-project/references/project-config.md) describes; the layout below is the GitHub one.
 
 ## Open the epic
 

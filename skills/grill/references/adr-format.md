@@ -2,7 +2,7 @@
 
 Adapted from Matt Pocock's `domain-modeling` skill (MIT).
 
-ADRs live in `docs/adr/` unless the project config names another folder, numbered in sequence: `0001-slug.md`, `0002-slug.md`. Take the highest number there and add one. Create the folder on the first ADR.
+ADRs live in `docs/adr/` unless the `ADRs` line of `docs/agents/project.md` names another folder, numbered in sequence: `0001-slug.md`, `0002-slug.md`. Take the highest number there and add one. Create the folder on the first ADR.
 
 ```md
 # {Short title of the decision}

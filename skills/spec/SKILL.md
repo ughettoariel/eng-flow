@@ -5,7 +5,7 @@ description: Write a feature's spec into the body of its epic on GitHub, with nu
 
 # Spec
 
-Runs in the main thread, so the test seams can be checked with the owner.
+Runs in the main thread, so the test seams can be checked with the owner. Where tickets live follows the `Tickets` line of `docs/agents/project.md`, as [project-config](../setup-project/references/project-config.md) describes; the layout below is the GitHub one.
 
 1. Say the epic's outcome in one sentence. If it needs "and", it is two epics: propose the split to the owner before writing any criterion.
 2. Read the code the feature touches. Use the project's glossary and respect its ADRs.

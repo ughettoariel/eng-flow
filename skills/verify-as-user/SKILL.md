@@ -1,11 +1,11 @@
 ---
 name: verify-as-user
-description: Verify a change the way its user would: walk each acceptance criterion in the running app, report what you saw, record the verdict on the commit, and keep the project's UI board current when screens change. Use for the verify step of a ticket, or when asked to check that a change works in the app.
+description: Verify a change the way its user would: walk each acceptance criterion in the running app, report what you saw, record the verdict on the commit, and carry a capture of what changed when screens change. Use for the verify step of a ticket, or when asked to check that a change works in the app.
 ---
 
 # Verify as the user
 
-Proof is what you observed yourself in this session, in the running app. Green tests with mocks do not prove what a person sees. A project with its own verification skill names it in `docs/agents/project.md`; that one wins for how to start and drive the app.
+Proof is what you observed yourself in this session, in the running app. Green tests with mocks do not prove what a person sees. A project with its own verification skill names it on the `Run` line of `docs/agents/project.md`; that one wins for how to start and drive the app.
 
 ## Walk
 
@@ -23,17 +23,13 @@ gh api repos/<owner>/<repo>/statuses/<head sha> -f context=verify -f state=succe
 
 Use `state=failure` and name the failed criterion on a fail; the ticket goes back to `implement`. With no environment to run it (missing credentials, a service that is down), say `BLOCKED` with what is missing. Never mark `verify` passed without the walk.
 
-## The UI board
+## Screens
 
-Only for a change that touches a UI directly. The project's UI board, a Figma or Miro board named in `docs/agents/project.md`, holds the product's flows with each screen's states, and stays current.
+Only for a change that touches a UI directly.
 
-- Update the screens the ticket changed on the board, with their states.
-- In the PR description, link the flow on the board, or the capture of what changed.
-- An animation that matters is a short video, in both the PR description and the board.
-- When the change reaches screens outside the ticket, file a `type:task` to update every affected screen on the board, instead of growing this PR.
-
-A project with no board gets no captures: say so in the PR description.
+- Capture the screens the ticket changed, with their states, for the PR description. An animation that matters is a short video.
+- When `docs/agents/project.md` names a `UI board`, also update those screens on the board and link the flow from the PR. When the change reaches screens outside the ticket, file a task to update them on the board instead of growing this PR.
 
 ## Done
 
-Every criterion a person can observe was walked in the app and reported, the `verify` status is on the head commit, and the board shows the changed screens when the change touches a UI.
+Every criterion a person can observe was walked in the app and reported, the `verify` status is on the head commit, and the PR carries a capture of the changed screens when the change touches a UI.

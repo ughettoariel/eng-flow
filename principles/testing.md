@@ -6,12 +6,6 @@ Business rules are tested through the functions other code calls, not through in
 
 **Why:** tests through the interface survive refactors and fail only when behaviour changes.
 
-## Weight tests where decisions are
-
-Most tests go to the pure core, where they are fast and exact. Adapters get integration tests against a local emulator of the real service. Screens get light tests of behaviour, not layout.
-
-**Why:** a test is worth what it can catch per second it costs; decisions are where the bugs are.
-
 ## Access rules are tested both ways
 
 Every access rule has a test where an allowed role succeeds and one where a denied role fails.

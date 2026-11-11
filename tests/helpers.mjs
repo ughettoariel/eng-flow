@@ -4,7 +4,7 @@ import path from 'node:path';
 
 export const repo = path.resolve(import.meta.dirname, '..');
 
-const untracked = new Set(['.git', 'node_modules', 'sources', '.remember', '.eng-flow', '.claude']);
+const untracked = new Set(['.git', 'node_modules', 'sources', '.eng-flow', '.claude']);
 
 function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {

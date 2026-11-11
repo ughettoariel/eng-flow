@@ -43,3 +43,52 @@ test('outside a git repository, or with no questions, the hook prints nothing', 
   assert.equal(questionsFolder(plain), null);
   assert.equal(report(pendingQuestions(questionsFolder(plain))), '');
 });
+
+const hook = path.join(import.meta.dirname, '..', 'hooks', 'pending-questions.mjs');
+const runHook = (input) => execFileSync('node', [hook], { input: JSON.stringify(input), encoding: 'utf8' });
+const untracked = (cwd) =>
+  execFileSync('git', ['ls-files', '--others', '--exclude-standard'], { cwd, encoding: 'utf8' });
+
+function repoWithQuestion(name) {
+  const main = path.join(scratch, name);
+  mkdirSync(main);
+  git(main, 'init', '-q');
+  const file = path.join(main, '.eng-flow', 'questions', 'general-scope.md');
+  mkdirSync(path.dirname(file), { recursive: true });
+  writeFileSync(file, '# Scope\n');
+  return { main, file };
+}
+
+test('a question written during a session is ignored by git right after the write', () => {
+  const { main, file } = repoWithQuestion('written');
+  assert.equal(untracked(main), '.eng-flow/questions/general-scope.md\n');
+
+  const output = runHook({ hook_event_name: 'PostToolUse', cwd: main, tool_input: { file_path: file } });
+
+  assert.equal(output, '');
+  assert.equal(untracked(main), '');
+});
+
+test('session start makes an existing questions folder ignore itself and lists its questions', () => {
+  const { main } = repoWithQuestion('started');
+
+  const output = runHook({ hook_event_name: 'SessionStart', cwd: main });
+
+  assert.match(output, /1 pending question\(s\)[\s\S]*Scope/);
+  assert.equal(untracked(main), '');
+});
+
+test('writing a file outside .eng-flow/ creates nothing', () => {
+  const main = path.join(scratch, 'elsewhere');
+  mkdirSync(main);
+  git(main, 'init', '-q');
+  writeFileSync(path.join(main, 'notes.md'), 'x');
+
+  runHook({
+    hook_event_name: 'PostToolUse',
+    cwd: main,
+    tool_input: { file_path: path.join(main, 'notes.md') },
+  });
+
+  assert.equal(untracked(main), 'notes.md\n');
+});

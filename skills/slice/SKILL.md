@@ -5,6 +5,8 @@ description: Slice an epic's spec into tickets filed as sub-issues of the epic, 
 
 # Slice
 
+Where tickets live follows the `Tickets` line of `docs/agents/project.md`, as [project-config](../setup-project/references/project-config.md) describes; the layout below is the GitHub one.
+
 A ticket reads without opening its epic. The tests `implement` writes carry the detail, so a ticket carries only what is needed to write them.
 
 ## Cut

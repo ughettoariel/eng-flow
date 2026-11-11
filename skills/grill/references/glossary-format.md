@@ -2,7 +2,7 @@
 
 Adapted from Matt Pocock's `domain-modeling` skill (MIT).
 
-The glossary is the project's shared language: the words the code, the tickets and the people use for the same thing. It lives at `CONTEXT.md` in the repo root unless the project config names another file.
+The glossary is the project's shared language: the words the code, the tickets and the people use for the same thing. It lives at `CONTEXT.md` in the repo root unless the `Glossary` line of `docs/agents/project.md` names another file.
 
 ```md
 # {Context name}
