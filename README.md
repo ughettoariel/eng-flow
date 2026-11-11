@@ -82,7 +82,7 @@ npm test
 npm run lint && npm run format:check && npm run secrets
 ```
 
-`node scripts/fetch-sources.mjs` clones the upstream repositories into `sources/` at the commits in `sources.json`, for reference; the folder is never committed. CI runs the same tests, oxlint, oxfmt and gitleaks over the tree and the history.
+`node scripts/fetch-sources.mjs` clones the upstream repositories into `sources/` at the commits in `sources.json`, for reference; the folder is never committed. CI runs the tests. Linting, formatting and the secrets scan are for working on this repository and run locally; projects that install the plugin use their own checks.
 
 ## Credits and licence
 
