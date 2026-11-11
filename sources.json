@@ -1,0 +1,61 @@
+{
+  "purpose": "Upstream repositories eng-flow copies skills from or credits. scripts/fetch-sources.mjs clones each into sources/ at its pinned commit, for reference only.",
+  "review_date": "2026-11-01",
+  "repositories": [
+    {
+      "name": "pstack",
+      "repo": "cursor/plugins",
+      "directory": "cursor-plugins",
+      "url": "https://github.com/cursor/plugins.git",
+      "commit": "ae5650febf4320793844c12c4adaa937f417f8da",
+      "sparse_scope": "pstack",
+      "license": "MIT",
+      "license_path": "pstack/LICENSE",
+      "copyright": "Lauren Tan"
+    },
+    {
+      "name": "Matt Pocock",
+      "repo": "mattpocock/skills",
+      "directory": "mattpocock-skills",
+      "url": "https://github.com/mattpocock/skills.git",
+      "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+      "sparse_scope": null,
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "copyright": "Matt Pocock"
+    },
+    {
+      "name": "Addy Osmani",
+      "repo": "addyosmani/agent-skills",
+      "directory": "addyosmani-agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills.git",
+      "commit": "8bfcc1f9916f2eea55494d8c1fa7f4bde867dd9e",
+      "sparse_scope": null,
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "copyright": "Addy Osmani"
+    },
+    {
+      "name": "Superpowers",
+      "repo": "obra/superpowers",
+      "directory": "superpowers",
+      "url": "https://github.com/obra/superpowers.git",
+      "commit": "2ce8aa15d05bd57213e6f746f953aafb7ded7a8b",
+      "sparse_scope": null,
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "copyright": "Jesse Vincent"
+    },
+    {
+      "name": "tstack (Theo)",
+      "repo": "t3dotgg/tstack",
+      "directory": "tstack",
+      "url": "https://github.com/t3dotgg/tstack.git",
+      "commit": "1085050f3baed1ac724caa4a8166145fb2ac88af",
+      "sparse_scope": null,
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "copyright": "Theo Browne"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "rules": {
+    // `== null` is kept: it means null or undefined.
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "array-callback-return": "error",
+    "max-lines-per-function": ["error", { "max": 50, "skipBlankLines": true, "skipComments": true }],
+    "max-depth": ["error", { "max": 4 }]
+  },
+  "overrides": [
+    {
+      // page.evaluate serializes one function into the browser, so `collect` and the other
+      // page functions must hold their helpers inside them.
+      "files": ["skills/ui-quality/scripts/ui-scan.mjs"],
+      "rules": {
+        "max-lines-per-function": "off",
+        "unicorn/consistent-function-scoping": "off"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "eng-flow",
+  "version": "0.1.0",
+  "description": "An agent workflow: grill, wayfinder, spec, slice, diagnose, implement, code-review, verify-as-user and file-pr, with UI and writing skills.",
+  "author": {
+    "name": "ughettoariel"
+  },
+  "repository": "https://github.com/ughettoariel/eng-flow",
+  "license": "MIT"
+}

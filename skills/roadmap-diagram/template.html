@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Process diagram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf8ee; --ink:#141414; --muted:#4a4638;
+  --main:#ffd23f; --sub:#fff3c2; --opt:#ffffff; --alt:#cfe3ff; --stop:#ffd0cc; --check:#141414; --check-ink:#fff7d6;
+  --line:#141414; --section:#141414; --section-ink:#fff7d6;
+  --font:"Patrick Hand","Segoe Print","Comic Sans MS",ui-rounded,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15130d; --ink:#f6f1dc; --muted:#c9c2a6;
+    --main:#e8b923; --sub:#2e2a17; --opt:#1c1a12; --alt:#1d2c44; --stop:#4a1f1c; --check:#f6f1dc; --check-ink:#15130d;
+    --line:#f6f1dc; --section:#f6f1dc; --section-ink:#15130d;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15130d; --ink:#f6f1dc; --muted:#c9c2a6;
+  --main:#e8b923; --sub:#2e2a17; --opt:#1c1a12; --alt:#1d2c44; --stop:#4a1f1c; --check:#f6f1dc; --check-ink:#15130d;
+  --line:#f6f1dc; --section:#f6f1dc; --section-ink:#15130d;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.25;padding:32px 16px 64px;overflow-x:hidden}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:clamp(28px,6vw,44px);text-align:center;margin:0 0 4px;line-height:1.1}
+.lede{text-align:center;color:var(--muted);margin:0 auto 20px;max-width:640px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;margin:0 0 28px;padding:12px;border:2px solid var(--line);border-radius:12px;font-size:16px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:30px;height:18px;border:2px solid var(--line);border-radius:6px;display:inline-block;flex:none}
+.sw.mn{background:var(--main);border-width:3px}.sw.sb{background:var(--sub)}
+.sw.opt{background:var(--opt);border-style:dashed}.sw.alt{background:var(--alt)}
+.sw.stop{background:var(--stop);border-style:double;border-width:4px}
+.sw.chk{background:var(--check);border-radius:9px}
+.ln{width:30px;border-top:3px solid var(--line);display:inline-block}.ln.d{border-top-style:dashed;border-top-width:2px}
+.spine{position:relative;display:flex;flex-direction:column;gap:30px;padding:6px 0}
+.spine::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px solid var(--line);transform:translateX(-1.5px)}
+.section{position:relative;align-self:center;background:var(--section);color:var(--section-ink);border-radius:999px;padding:4px 18px;font-size:17px;letter-spacing:.02em;text-align:center;z-index:1}
+.step{position:relative;display:grid;grid-template-columns:1fr minmax(220px,300px) 1fr;column-gap:46px;align-items:center}
+.col{display:flex;flex-direction:column;gap:10px}
+.col.l{align-items:flex-end;text-align:right}
+.box{position:relative;border:2px solid var(--line);border-radius:10px;padding:7px 12px;background:var(--sub);color:var(--ink);max-width:300px}
+.main{color:#141414;grid-column:2;z-index:1;background:var(--main);border:3px solid var(--line);border-radius:14px;padding:11px 14px;text-align:center;font-size:21px;font-weight:700;box-shadow:3px 3px 0 var(--line)}
+.main small{display:block;font-weight:400;font-size:15px;margin-top:2px}
+.box.opt{background:var(--opt);border-style:dashed}
+.box.alt{background:var(--alt)}
+.box.stop{background:var(--stop);border-style:double;border-width:5px}
+.box.loop::before{content:"\21BB  "}
+.box.stop::before{content:"\25A0  "}
+.box.opt::before{content:"(opcional)  ";font-size:14px;color:var(--muted)}
+.box.alt::before{content:"o  ";font-weight:700}
+.check{grid-column:2;z-index:1;background:var(--check);color:var(--check-ink);border:3px solid var(--line);border-radius:999px;padding:9px 18px;text-align:center;font-weight:700}
+.check::before{content:"\25C6  "}
+.tag{display:inline-block;font-size:13px;font-weight:700;border:1.5px solid var(--line);border-radius:999px;padding:0 7px;margin-left:6px;background:var(--bg);color:var(--ink);vertical-align:middle}
+.col.l .box::after,.col.r .box::after{content:"";position:absolute;top:50%;width:23px;border-top:2px dashed var(--line)}
+.col.l .box::after{left:100%}.col.r .box::after{right:100%}
+.col.l .box,.col.r .box{margin-right:0}
+.note{margin-top:34px;font-size:14px;color:var(--muted);text-align:center}
+@media (max-width:720px){
+  body{font-size:17px}
+  .spine::before{left:10px;transform:none}
+  .section{align-self:flex-start;margin-left:0}
+  .step{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding-left:34px}
+  .main,.check{width:100%}
+  .col{gap:8px;margin-left:18px;padding-left:14px;border-left:2px dashed var(--line)}
+  .col.l{align-items:flex-start;text-align:left}
+  .col .box{max-width:none;width:100%}
+  .col.l .box::after,.col.r .box::after{display:none}
+  .step::before{content:"";position:absolute;left:-24px;top:50%;width:24px;border-top:3px solid var(--line)}
+  .step{position:relative}
+  .step::before{left:10px;width:24px}
+  .step > .col.l{order:2}.step > .col.r{order:3}.step > .main,.step > .check{order:1}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Process title</h1>
+<p class="lede">One line on what this shows.</p>
+<div class="legend" role="list" aria-label="Legend">
+<span role="listitem"><i class="sw mn"></i>Main step (required)</span>
+<span role="listitem"><i class="sw sb"></i>Sub-step</span>
+<span role="listitem"><i class="sw opt"></i>Optional (dashed border)</span>
+<span role="listitem"><i class="sw alt"></i>Alternative (or)</span>
+<span role="listitem"><i class="sw chk"></i>Checkpoint &#9670;</span>
+<span role="listitem"><i class="sw stop"></i>Stop / escalate &#9632;</span>
+<span role="listitem"><b>&#8635;</b> Loop or retry</span>
+<span role="listitem"><i class="ln"></i>Spine (solid)</span>
+<span role="listitem"><i class="ln d"></i>Branch (dotted)</span>
+</div>
+<main class="spine">
+<div class="section">Phase 1 &middot; Example</div>
+<section class="step"><div class="col l"><div class="box sub">Sub-step on the left</div></div><div class="main">Main step<small>one idea per box</small></div><div class="col r"><div class="box sub">Sub-step on the right</div><div class="box opt">Optional sub-step</div></div></section>
+<section class="step"><div class="col l"><div class="box alt">Alternative A</div><div class="box alt">Alternative B</div></div><div class="main">Second step</div><div class="col r"><div class="box sub">Detail</div></div></section>
+<section class="step"><div class="col l"><div class="box loop sub">No: retry, at most twice</div></div><div class="check">Does the condition hold?</div><div class="col r"><div class="box stop">Still failing: stop and escalate</div></div></section>
+<div class="section">Phase 2 &middot; Wrap-up</div>
+<section class="step"><div class="col l"></div><div class="main">Last step</div><div class="col r"><div class="box sub">Result</div></div></section>
+</main>
+<p class="note">Visual style inspired by roadmap.sh. No content or assets are copied from roadmap.sh.</p>
+</div>
+</body>
+</html>

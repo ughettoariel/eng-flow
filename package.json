@@ -1,0 +1,17 @@
+{
+  "name": "eng-flow",
+  "private": true,
+  "description": "An agent workflow for Claude Code: skills from idea to merged ticket, and the checks that hold it.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs skills/*/scripts/*.test.mjs",
+    "lint": "oxlint .",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "secrets": "gitleaks dir . --redact --verbose"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ughettoariel",
+  "description": "Plugins by ughettoariel",
+  "owner": {
+    "name": "ughettoariel"
+  },
+  "plugins": [
+    {
+      "name": "eng-flow",
+      "source": "./",
+      "description": "An agent workflow from idea to merged ticket, and its skills"
+    }
+  ]
+}
