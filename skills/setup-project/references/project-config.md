@@ -11,7 +11,6 @@ Tickets: github
 Board: https://github.com/users/octocat/projects/1
 Run: npm run dev, then open http://localhost:3000
 Design board: none
-Verify status: off
 Glossary: CONTEXT.md
 ADRs: docs/adr
 
@@ -28,13 +27,10 @@ Anything the PR template does not already say.
 | `Board` | `slice`, `ship-ticket`, `run-epic` | `none`: no board, and no skill moves a Status |
 | `Run` | `verify-as-user` | Found from the README; a project verification skill named here wins |
 | `Design board` | `verify-as-user`, `file-pr` | `none`: captures go in the PR description |
-| `Verify status` | `verify-as-user` | `off`: the verdict goes in the session and the PR description |
 | `Glossary` | `grill`, `spec` | `CONTEXT.md` |
 | `ADRs` | `grill` | `docs/adr` |
 
 `Setup` is what a new worktree needs before its checks or its app run: installing dependencies, copying untracked files such as `.env`, and a port that does not collide with another session's.
-
-`Verify status: on` also posts the verdict as the commit status `verify`, for a branch protection that requires it. It needs a token with write access to the repository, so it fails on forks.
 
 `Board` is the GitHub Project of ticket states: `Backlog`, `In progress`, `Parked`, `In review`, `Done`. A ticket is Parked when its questions have no answer or it said `BLOCKED`; Parked does not count toward work in progress.
 

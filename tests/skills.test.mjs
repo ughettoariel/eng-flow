@@ -152,3 +152,15 @@ test('no shipped file uses the retired severities Important or Pre-existing', ()
 test('slice does not use the Ready state, which the board no longer has', () => {
   assert.doesNotMatch(readFileSync(skillFile('slice'), 'utf8'), /\bReady\b/);
 });
+
+// Verdicts live in git notes on the verified SHA, so no PR carries statuses or verdict sections.
+test('no shipped file posts a commit status or reads Verify status', () => {
+  assert.deepEqual(linesMatching(/Verify status|\/statuses\b|commit status `|context=verify|`Verification` (heading|section)/), []);
+});
+
+test('the verdict-notes reference names the ref, the chain and how to push and merge notes', () => {
+  const notes = readFileSync(path.join(dirOf('code-review'), 'references', 'verdict-notes.md'), 'utf8');
+  for (const needle of ['refs/notes/eng-flow', 'previous:', 'Addresses:', 'git notes --ref=eng-flow merge']) {
+    assert.ok(notes.includes(needle), needle);
+  }
+});
