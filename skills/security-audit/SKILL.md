@@ -44,7 +44,7 @@ Open with the threat model in one or two lines. Then at most five real findings,
 | `Nit` | Minor |
 | `FYI` | Already there before this diff: a follow-up, never a reason to fail |
 
-End with a line that is only `PASS`, or only `FAIL` when any `Critical` or `Required` is open. The report goes back to the session that asked for it, never to a PR comment. A secret that reached a remote is `Critical` whatever else holds: it is rotated first, then purged.
+End with a line that is only `PASS`, or only `FAIL` when any `Critical` or `Required` is open. The report goes back to the session that asked for it, never to a PR comment, and only a short title per finding reaches the verdict note: the exploit scenario stays in the session. A secret that reached a remote is `Critical` whatever else holds: it is rotated first, then purged.
 
 ## Done
 

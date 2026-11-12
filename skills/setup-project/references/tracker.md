@@ -36,8 +36,8 @@ gh api repos/{owner}/{repo}/issues/<child number>/dependencies/blocked_by --jq '
 gh api -X PATCH repos/{owner}/{repo}/issues/<number> -F body=@body.md
 gh api -X PATCH repos/{owner}/{repo}/issues/<number> -f state=closed -f state_reason=completed
 
-# Look up the id of an issue you only know by number
-gh api repos/{owner}/{repo}/issues/<number> --jq .id
+# Look up the id of an issue you only know by number, and who opened it
+gh api repos/{owner}/{repo}/issues/<number> --jq '{id, author_association}'
 ```
 
 The labels must exist first; `setup-project` creates them. Where the blocked-by endpoint answers 404 (some GitHub Enterprise Server versions), write `Blocked by #<number>` as the first line of the blocked ticket's body and read it from there.
