@@ -42,9 +42,13 @@ test('ship-ticket runs implement and file-pr and leaves a draft PR into the tick
 
 test('ship-ticket picks reviewers by the change-size threshold and always audits security tickets', () => {
   const text = skill('ship-ticket');
-  assert.match(text, /at most two files[^\n]*under 50 changed lines[^\n]*authentication, payments, data access, configuration[^\n]*`Sensitive paths`/);
+  assert.match(
+    text,
+    /at most two files[^\n]*under 50 changed lines[^\n]*authentication, payments, data access, configuration[^\n]*`Sensitive paths`/,
+  );
   assert.match(text, /`security`[^\n]*`security-audit`/);
-  for (const reviewer of ['`code-review`', '`security-audit`', '`verify-as-user`']) assert.ok(text.includes(reviewer), reviewer);
+  for (const reviewer of ['`code-review`', '`security-audit`', '`verify-as-user`'])
+    assert.ok(text.includes(reviewer), reviewer);
 });
 
 test('ship-ticket parks a ticket after three rounds without PASS', () => {
@@ -84,7 +88,10 @@ test('run-epic reviews the whole epic against main and leaves its PR ready with 
 
 test('ship-ticket merges only the noted head into the epic branch it was given', () => {
   const text = skill('ship-ticket');
-  assert.match(text, /merge only when the base step 3 chose is an `epic\/\*` branch[^\n]*SHA the PASS note sits on/);
+  assert.match(
+    text,
+    /merge only when the base step 3 chose is an `epic\/\*` branch[^\n]*SHA the PASS note sits on/,
+  );
   assert.match(text, /git merge --no-ff --no-edit <noted sha>/);
   assert.match(text, /git push origin HEAD:refs\/heads\/<epic branch>/);
   assert.match(text, /never merges into the repository's default branch/);
@@ -136,7 +143,10 @@ test('PRs into the default branch close their issue, and the board moves it to D
 });
 
 test('approved epic-review tickets are filed the way slice files them', () => {
-  assert.match(skill('run-epic'), /file each approved one the way `slice` does[^\n]*type label[^\n]*`Backlog`/);
+  assert.match(
+    skill('run-epic'),
+    /file each approved one the way `slice` does[^\n]*type label[^\n]*`Backlog`/,
+  );
 });
 
 test('the epic verify rule skips spikes, and the merge checks and Closes lines are pinned', () => {
@@ -159,7 +169,10 @@ test('setup-project creates a board named after the repository and links it only
 test('setup-project proposes a new board when the Board line points at a shared Project', () => {
   const setup = skill('setup-project');
   const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
-  assert.match(setup, /`Board` line points at a Project linked to other repositories[^\n]*say so[^\n]*propose a new one/i);
+  assert.match(
+    setup,
+    /`Board` line points at a Project linked to other repositories[^\n]*say so[^\n]*propose a new one/i,
+  );
   assert.match(setup, /never (change|touch)[^\n]*its Status options/i);
   assert.match(tracker, /repositories\(first: \d+\) \{ nodes \{ nameWithOwner \} \}/);
 });
