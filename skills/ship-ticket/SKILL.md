@@ -7,6 +7,8 @@ description: Take one ticket from its branch to a merge by running the other eng
 
 This skill only orders other skills; each step's rules live in that skill. The harness decides how to start a subagent or a new session: read the reference for the one you run in, [references/claude-code.md](references/claude-code.md), before the first step that needs it.
 
+Work you find outside the ticket's criteria, such as a stale line in the epic, a fix to another skill or a risk no criterion covers, is not this session's: under `run-epic` (a handoff names the epic), send it to the epic's `run-epic` session instead of doing it, the way the harness reference says, and go on with the ticket; without a handoff, list it in the final report for the owner.
+
 When something blocks you, say `BLOCKED` and the cause, park any open question as `grill` describes, and move the ticket to `Parked` on the board when `docs/agents/project.md` has a `Board` line ([tracker.md](../setup-project/references/tracker.md) has the commands).
 
 ## Start

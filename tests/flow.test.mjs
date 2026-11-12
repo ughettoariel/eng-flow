@@ -360,3 +360,30 @@ test('for a project with no app, setup-project writes a Run line that says how a
   const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
   assert.match(config, /`Run: no app`[^\n]*how a change is checked/);
 });
+
+test('ship-ticket sends work outside its criteria to the epic run-epic session instead of doing it', () => {
+  const ship = skill('ship-ticket');
+  assert.match(
+    ship,
+    /outside (the|its) ticket's criteria[^\n]*send it to the epic's `run-epic` session[^\n]*instead of doing it/i,
+  );
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /message to the `run-epic` session[^\n]*`SendMessage`/i);
+  assert.match(skill('run-epic'), /handoff[^\n]*how to reach this session/);
+});
+
+test('run-epic proposes out-of-scope work as a new ticket or an edit to an open one and files only what the owner approves', () => {
+  const epic = skill('run-epic');
+  assert.match(
+    epic,
+    /work a ticket session sends from outside its criteria[^\n]*new ticket[^\n]*edit to an open one[^\n]*only what the owner approves/i,
+  );
+});
+
+test('run-epic checks the ticket session before asking the owner a parked question', () => {
+  const epic = skill('run-epic');
+  assert.match(
+    epic,
+    /before asking the owner a parked question[^\n]*`## Decisions`[^\n]*ticket's (live )?session/i,
+  );
+});
