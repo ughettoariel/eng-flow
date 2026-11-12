@@ -101,7 +101,7 @@ test('no shipped file says UI board', () => {
   assert.deepEqual(linesMatching(/UI board/i), []);
 });
 
-// One scale for every reviewer, Addy Osmani's: the verdict notes compare findings across rounds.
+// code-review and security-audit share Addy Osmani's scale: the verdict notes compare findings across rounds.
 const severities = ['Critical', 'Required', 'Optional', 'Nit', 'FYI'];
 
 test('code-review and security-audit report with the same severity scale', () => {
@@ -112,6 +112,7 @@ test('code-review and security-audit report with the same severity scale', () =>
       return severities.filter((severity) => !text.includes(`\`${severity}\``)).map((s) => `${skill}: ${s}`);
     });
   assert.deepEqual(bad, []);
+  assert.match(readFileSync(skillFile('code-review'), 'utf8'), /`FAIL` when any `Critical` or `Required` is open/);
 });
 
 test('no shipped file uses the retired severities Important or Pre-existing', () => {

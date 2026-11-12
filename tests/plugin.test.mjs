@@ -32,4 +32,5 @@ test('eng-flow ships no hooks, so installing it adds no runtime to a project', (
 test('ADR 0001 leaves enforcement to the project checks, with no hook or CLI of eng-flow', () => {
   const adr = readFileSync(path.join(repo, 'docs/decisions/0001-skills-in-prose-gates-in-code.md'), 'utf8');
   assert.doesNotMatch(adr, /\bhook\b|CLI command that refuses/);
+  assert.match(adr, /brings none of its own \(ADR 0022\)/);
 });
