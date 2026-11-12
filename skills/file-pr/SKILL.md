@@ -38,8 +38,8 @@ changes, for example `Created with <model> in <harness>.` Include subagent
 models that wrote part of the change. Use the model name the harness reports.
 If model identity is unavailable, name the harness without guessing a model.
 
-Apply the rules of [unslop](../unslop/SKILL.md) to the title and description, then check them, and
-any quotes and attachments, for secrets and private details.
+Write the title and description in plain words, with the project's own writing rules when it
+has them, then check them, and any quotes and attachments, for secrets and private details.
 
 When the change touches a UI directly, the description carries a capture of
 what changed, or links the flow on the project's UI board when
@@ -51,12 +51,17 @@ win over this layout; keep the "Created with" line.
 ## Draft until ready
 
 Open every PR as a draft:
-`gh pr create --draft --base <base> --title "..." --body-file <file>`.
+`gh pr create --draft --base <base> --title "..." --body-file <file>`, with
+`main` as the base unless the owner names another. Repositories that do not
+allow drafts (private repositories on GitHub Free) refuse it: open the PR
+without `--draft`, with `[WIP] ` before the title, and say so in the session.
 It stays a draft until the project's checks, the review and the verification
-pass on its head; only then turn it ready with `gh pr ready <pr>`. Never push to
-`main` or to an epic branch directly. A PR into `main` is the owner's to merge.
+pass on its head; only then turn it ready with `gh pr ready <pr>`, or drop the
+`[WIP] ` prefix. Never push to the base branch directly. A PR into `main` is the
+owner's to merge.
 
 Never put a question in a PR description or a PR comment: ask it in the session,
 and park it in `.eng-flow/questions/` when it gets no answer, as `grill` says. Do
-not post a PR comment unless it serves the user's request. When a comment is
-needed, use the `leaving-pr-comments` skill.
+not post a PR comment unless it serves the user's request. A comment that is
+needed leads with the conclusion, cites the code or check behind it, and ends
+with a line `- by <model>` naming the agent that wrote it.

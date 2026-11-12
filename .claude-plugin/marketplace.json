@@ -9,6 +9,11 @@
       "name": "eng-flow",
       "source": "./",
       "description": "An agent workflow from idea to merged ticket, and its skills"
+    },
+    {
+      "name": "ui-quality",
+      "source": "./plugins/ui-quality",
+      "description": "Scored UI/UX rules and scans for web, phone and tablet, installed on demand"
     }
   ]
 }

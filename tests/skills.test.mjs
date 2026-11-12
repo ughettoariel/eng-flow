@@ -4,11 +4,20 @@ import path from 'node:path';
 import { test } from 'node:test';
 import { repo, shippedFiles } from './helpers.mjs';
 
-const root = path.join(repo, 'skills');
-const skills = readdirSync(root, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
-  .map((entry) => entry.name);
-const skillFile = (skill) => path.join(root, skill, 'SKILL.md');
+const folders = (dir) =>
+  existsSync(dir)
+    ? readdirSync(dir, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name)
+    : [];
+const skillRoots = [
+  path.join(repo, 'skills'),
+  ...folders(path.join(repo, 'plugins')).map((plugin) => path.join(repo, 'plugins', plugin, 'skills')),
+];
+const skillDirs = skillRoots.flatMap((root) => folders(root).map((skill) => path.join(root, skill)));
+const skills = skillDirs.map((dir) => path.basename(dir));
+const dirOf = (skill) => skillDirs.find((dir) => path.basename(dir) === skill);
+const skillFile = (skill) => path.join(dirOf(skill), 'SKILL.md');
 
 test('every skill has a SKILL.md whose name matches its folder, with a description', () => {
   const invalid = skills.filter((skill) => {
@@ -33,7 +42,7 @@ test('every skill description is one line of at most 300 characters, with no ang
 
 test('skill scripts are plain Node modules with no package to install', () => {
   assert.deepEqual(
-    skills.filter((skill) => existsSync(path.join(root, skill, 'package.json'))),
+    skills.filter((skill) => existsSync(path.join(dirOf(skill), 'package.json'))),
     [],
   );
 });

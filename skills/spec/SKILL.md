@@ -5,13 +5,13 @@ description: Write a feature's spec into the body of its epic on GitHub, with nu
 
 # Spec
 
-Runs in the main thread, so the test seams can be checked with the owner. Where tickets live follows the `Tickets` line of `docs/agents/project.md`, as [project-config](../setup-project/references/project-config.md) describes; the layout below is the GitHub one.
+Runs in the main thread, so the test seams can be checked with the owner. Where tickets live follows the `Tickets` line of `docs/agents/project.md`; [tracker.md](../setup-project/references/tracker.md) has the command for each operation named below.
 
 1. Say the epic's outcome in one sentence. If it needs "and", it is two epics: propose the split to the owner before writing any criterion.
 2. Read the code the feature touches. Use the project's glossary and respect its ADRs.
 3. List the assumptions you are making before writing. Anything the owner did not settle is an assumption, not a fact; open decisions go through `grill` first.
 4. Pick the test seams: the highest public interface that reaches the behaviour, existing seams before new ones, as few as possible. Confirm them with the owner.
-5. Write the spec into the epic's body, so the feature keeps one issue. When there is no epic yet, open one labelled `type:epic`. Keep the sections already there, such as Decisions so far, and add:
+5. Write the spec into the epic's body, so the feature keeps one issue. When there is no epic yet, create one labelled `type:epic`. Keep the sections already there, such as Decisions so far, and add:
    - the outcome in one sentence;
    - the problem and the solution from the user's side;
    - numbered acceptance criteria, each observable and with how it is verified;

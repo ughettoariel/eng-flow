@@ -5,7 +5,7 @@ description: Implement a ticket test-first: one failing test per acceptance crit
 
 # Implement
 
-1. Read the ticket, the project's own rules and the eng-flow principles the ticket touches. The principles sit in `principles/` at the root of this plugin, two folders above this skill: [testing.md](../../principles/testing.md) always, [security.md](../../principles/security.md) at a trust boundary, [data-and-contracts.md](../../principles/data-and-contracts.md) for stored data, APIs and events, [agents-and-docs.md](../../principles/agents-and-docs.md) for docs and agent instructions. Where the project's rules and the principles disagree, the project's rules win.
+1. Read the ticket and the project's own rules: its agent instruction files, its lint and test config, and the ADRs the ticket touches. In a fresh worktree, run the `Setup` line of `docs/agents/project.md` first, when it has one.
 2. Test first: for each acceptance criterion, a test that fails now and passes after the change. Tests check behaviour through the public interface, never internals. Styles and docs get other evidence instead.
 3. Make the smallest change that satisfies the criteria; nothing outside the ticket. For a bug, fix the root cause the failing test shows, not the symptom.
 4. Leave the code you touch at least as readable as you found it: clear names, one function per rule, and a comment only for a reason the code cannot show. Never write again what a shared helper already does; call it. Do not refactor code the ticket does not touch.

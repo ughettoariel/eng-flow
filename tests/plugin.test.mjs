@@ -12,21 +12,19 @@ test('the plugin manifest names eng-flow with a semantic version', () => {
   assert.match(plugin.version, /^\d+\.\d+\.\d+$/);
 });
 
-test('the marketplace lists eng-flow from the repository root', () => {
+test('every marketplace entry points at a plugin manifest with its name and a semantic version', () => {
   const marketplace = json('.claude-plugin/marketplace.json');
   assert.equal(marketplace.name, 'ughettoariel');
-  assert.deepEqual(
-    marketplace.plugins.map(({ name, source }) => ({ name, source })),
-    [{ name: 'eng-flow', source: './' }],
-  );
+  const bad = marketplace.plugins.flatMap(({ name, source }) => {
+    const manifest = path.join(source, '.claude-plugin', 'plugin.json');
+    if (!existsSync(path.join(repo, manifest))) return [`${name}: no ${manifest}`];
+    const plugin = json(manifest);
+    if (plugin.name !== name) return [`${name}: manifest names ${plugin.name}`];
+    return /^\d+\.\d+\.\d+$/.test(plugin.version) ? [] : [`${name}: version ${plugin.version}`];
+  });
+  assert.deepEqual(bad, []);
 });
 
-test('every hook command runs a script the plugin ships', () => {
-  const commands = Object.values(json('hooks/hooks.json').hooks)
-    .flat()
-    .flatMap((entry) => entry.hooks.map((hook) => hook.command));
-  const missing = commands
-    .map((command) => /\$\{CLAUDE_PLUGIN_ROOT\}\/([^"\s]+)/.exec(command)?.[1])
-    .filter((file) => !file || !existsSync(path.join(repo, file)));
-  assert.deepEqual(missing, []);
+test('eng-flow ships no hooks, so installing it adds no runtime to a project', () => {
+  assert.equal(existsSync(path.join(repo, 'hooks')), false);
 });

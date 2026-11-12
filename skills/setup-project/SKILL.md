@@ -11,9 +11,10 @@ The result is `docs/agents/project.md` in the shape of [references/project-confi
 
 1. Read the README, the agent instruction files (`CLAUDE.md`, `AGENTS.md`), the CI workflows, the package or build files (`package.json`, `Makefile`, `pyproject.toml`, `build.gradle`) and the PR and issue templates.
 2. `Checks`: the commands CI runs, as one line a person can paste.
-3. `Run`: how to start the app and where to open it, or a project skill that already verifies it.
-4. `Tickets`: signs of a tracker already in use. Ticket keys in branch names, commits or PR titles (`ABC-123`), tracker links in the README or PR template, `.github/ISSUE_TEMPLATE/`, open issues with `gh issue list --limit 20`.
-5. `Glossary` and `ADRs`: an existing glossary file and decision folder.
+3. `Setup`: what a fresh worktree lacks before the checks run, such as installed dependencies, an untracked `.env` or a fixed port.
+4. `Run`: how to start the app and where to open it, or a project skill that already verifies it.
+5. `Tickets`: signs of a tracker already in use. Ticket keys in branch names, commits or PR titles (`ABC-123`), tracker links in the README or PR template, `.github/ISSUE_TEMPLATE/`, open issues with `gh issue list --limit 20`.
+6. `Glossary` and `ADRs`: an existing glossary file and decision folder.
 
 A fact the repo answers is never a question.
 
@@ -25,12 +26,12 @@ Ask one batch the way `grill` does, with context and a recommended option per qu
 - **Keep the tracker the project already uses**, naming the one you found. eng-flow files nothing on GitHub.
 - **No tracker.** Specs and tickets stay in the session.
 
-Ask for `Checks` or `Run` only when the repo left them unclear, and for the UI board only when the project has screens.
+Ask for `Checks`, `Setup` or `Run` only when the repo left them unclear, and for the UI board only when the project has screens.
 
 ## Write it
 
 1. Write `docs/agents/project.md` with only the lines that differ from their default, and show it to the owner.
-2. With `Tickets: github`, create the labels once the owner said yes: `gh label create <name> --force` for `type:epic`, `type:story`, `type:task`, `type:bug`, `type:spike`, `security`, `ready-for-agent` and `ready-for-human`.
+2. With `Tickets: github`, check that `gh auth status` passes and that `gh api repos/{owner}/{repo} --jq .permissions.push` prints `true`; otherwise say what is missing. Then create the labels once the owner said yes: `gh label create <name> --force` for `type:epic`, `type:story`, `type:task`, `type:bug`, `type:spike`, `security`, `ready-for-agent` and `ready-for-human`.
 3. Commit nothing; the owner decides whether the file goes in a PR.
 
 ## Done

@@ -14,7 +14,7 @@
     {
       // page.evaluate serializes one function into the browser, so `collect` and the other
       // page functions must hold their helpers inside them.
-      "files": ["skills/ui-quality/scripts/ui-scan.mjs"],
+      "files": ["plugins/ui-quality/skills/ui-quality/scripts/ui-scan.mjs"],
       "rules": {
         "max-lines-per-function": "off",
         "unicorn/consistent-function-scoping": "off"

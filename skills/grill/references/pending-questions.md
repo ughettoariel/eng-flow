@@ -2,13 +2,11 @@
 
 Every question is asked in the thread first. Park it in `.eng-flow/questions/` when no answer comes and the session has to go on: the question tool returned without an answer, nobody is on the session (a background or headless run), or the owner said to keep going. Then say in the thread that it is parked and keep working on what does not depend on it. When nothing can go on without the answer, park it anyway and stop with `BLOCKED` and the question. The file is how another session, or this one after a restart, knows the question is still open.
 
-The folder sits in the main checkout, never in a worktree, so every session of the project reads the same files. Find it from any worktree:
+The folder sits at the root of the checkout the session works in: `$(git rev-parse --show-toplevel)/.eng-flow/questions/`. A worktree keeps its own, so a session never writes outside its folder, and the questions go away with the worktree they belong to.
 
-```bash
-echo "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.eng-flow/questions"
-```
+The folder is never committed. Before writing the first question, create `.eng-flow/.gitignore` with the single line `*` when it is missing, as pytest does for `.pytest_cache/`, so the project's own `.gitignore` needs no entry.
 
-The folder is never committed: it holds its own `.gitignore` with the single line `*`, as pytest does for `.pytest_cache/`. The plugin's hooks write it as soon as a file tool writes a question, and again at session start, so the project's own `.gitignore` needs no entry. Write questions with the file tool, not through the shell, so the hook sees them.
+Nothing lists the folder at session start. A session that resumes a ticket reads only the files that start with that ticket's number, when the owner asks for the ticket's pending questions.
 
 ## One file per question
 
