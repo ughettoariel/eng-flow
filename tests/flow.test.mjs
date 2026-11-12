@@ -55,3 +55,29 @@ test('ship-ticket turns the PR ready only on a PASS note and merges only into an
   assert.match(text, /PASS note on the head commit[^\n]*`gh pr ready`/);
   assert.match(text, /never merges into `main`/);
 });
+
+test('run-epic names no harness and borrows the harness reference of ship-ticket', () => {
+  const text = skill('run-epic');
+  assert.doesNotMatch(text, harnessNames);
+  assert.ok(text.includes('../ship-ticket/references/claude-code.md'));
+});
+
+test('run-epic lists Parked first, keeps at most two In progress and never launches a spike', () => {
+  const text = skill('run-epic');
+  assert.match(text, /`Parked` tickets first/);
+  assert.match(text, /at most two tickets in `In progress`/);
+  assert.match(text, /never[^\n]*`spike`/);
+  assert.match(text, /assigned to someone else/);
+});
+
+test('run-epic syncs main into the epic branch and writes a handoff before each launch', () => {
+  const text = skill('run-epic');
+  assert.match(text, /merge `main` into the epic branch/);
+  assert.ok(text.includes('.eng-flow/handoff.md'));
+});
+
+test('run-epic reviews the whole epic against main and leaves its PR ready with one line per ticket', () => {
+  const text = skill('run-epic');
+  assert.match(text, /epic branch against `main`/);
+  assert.match(text, /one line per ticket/);
+});
