@@ -101,6 +101,33 @@ test('no shipped file says UI board', () => {
   assert.deepEqual(linesMatching(/UI board/i), []);
 });
 
+const boardStatuses = ['Backlog', 'In progress', 'Parked', 'In review', 'Done'];
+const setupFile = (name) => readFileSync(path.join(dirOf('setup-project'), 'references', name), 'utf8');
+
+test('setup-project sets up the board with its five Status values and a Board line', () => {
+  const setup = readFileSync(skillFile('setup-project'), 'utf8');
+  assert.deepEqual(
+    boardStatuses.filter((status) => !setup.includes(`\`${status}\``)),
+    [],
+  );
+  assert.match(setupFile('project-config.md'), /^Board: /m);
+});
+
+// Moving a Status happens on every ticket, in sessions whose proxy may refuse GraphQL.
+test('tracker.md adds tickets to the board and moves their Status through REST', () => {
+  const tracker = setupFile('tracker.md');
+  assert.match(tracker, /^B=(users|orgs)\/<[a-z]+>\/projectsV2\/<n>$/m);
+  assert.match(tracker, /gh api -X POST \$B\/items /);
+  assert.match(tracker, /gh api -X PATCH \$B\/items\//);
+  assert.ok(tracker.includes('-f type=Issue -F id='));
+  assert.ok(tracker.includes('{"fields":[{"id":'));
+  assert.ok(tracker.includes('.content.repository_url'));
+});
+
+test('slice puts each ticket it files in Backlog', () => {
+  assert.match(readFileSync(skillFile('slice'), 'utf8'), /`Backlog`/);
+});
+
 // code-review and security-audit share Addy Osmani's scale: the verdict notes compare findings across rounds.
 const severities = ['Critical', 'Required', 'Optional', 'Nit', 'FYI'];
 
@@ -112,7 +139,10 @@ test('code-review and security-audit report with the same severity scale', () =>
       return severities.filter((severity) => !text.includes(`\`${severity}\``)).map((s) => `${skill}: ${s}`);
     });
   assert.deepEqual(bad, []);
-  assert.match(readFileSync(skillFile('code-review'), 'utf8'), /`FAIL` when any `Critical` or `Required` is open/);
+  assert.match(
+    readFileSync(skillFile('code-review'), 'utf8'),
+    /`FAIL` when any `Critical` or `Required` is open/,
+  );
 });
 
 test('no shipped file uses the retired severities Important or Pre-existing', () => {
