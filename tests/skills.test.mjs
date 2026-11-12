@@ -155,7 +155,12 @@ test('slice does not use the Ready state, which the board no longer has', () => 
 
 // Verdicts live in git notes on the verified SHA, so no PR carries statuses or verdict sections.
 test('no shipped file posts a commit status or reads Verify status', () => {
-  assert.deepEqual(linesMatching(/Verify status|\/statuses\b|commit status `|context=verify|`Verification` (heading|section)/), []);
+  assert.deepEqual(
+    linesMatching(
+      /Verify status|\/statuses\b|commit status `|context=verify|`Verification` (heading|section)/,
+    ),
+    [],
+  );
 });
 
 test('the verdict-notes reference names the ref, the chain and how to push and merge notes', () => {
