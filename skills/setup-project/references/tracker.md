@@ -1,6 +1,6 @@
 # Tracker operations
 
-`wayfinder`, `spec`, `slice` and `grill` name these operations instead of a tracker. Which block applies follows the `Tickets` line of `docs/agents/project.md`, as [project-config.md](project-config.md) describes.
+`wayfinder`, `spec`, `slice`, `grill`, `ship-ticket` and `run-epic` name these operations instead of a tracker. Which block applies follows the `Tickets` line of `docs/agents/project.md`, as [project-config.md](project-config.md) describes.
 
 | Operation | What it does |
 | --- | --- |
