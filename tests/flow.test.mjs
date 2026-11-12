@@ -36,7 +36,8 @@ test('ship-ticket names the branch from the type label and asks when there is no
 
 test('ship-ticket runs implement and file-pr and leaves a draft PR into the ticket base', () => {
   const text = skill('ship-ticket');
-  for (const step of ['`implement`', '`file-pr`', 'draft']) assert.ok(text.includes(step), step);
+  assert.ok(text.includes('`implement`'));
+  assert.match(text, /`file-pr`[^\n]*draft[^\n]*base/);
 });
 
 test('ship-ticket picks reviewers by the change-size threshold and always audits security tickets', () => {
