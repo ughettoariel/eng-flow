@@ -1,0 +1,8 @@
+ticket: 40
+round: 1
+verdict: PASS
+findings:
+  F1  Optional  code-review     skills/ship-ticket/SKILL.md:47  gh pr checks --watch exits 1 with no checks; skill does not tell it from a failure
+  F2  Optional  code-review     skills/ship-ticket/SKILL.md:47  head can move during the watch; headRefOid not re-checked after it
+  F3  Nit       code-review     PR #46 body                     "Created with" attribution line
+verify: PASS  criteria 1-3 walked at 7dbfc9b
