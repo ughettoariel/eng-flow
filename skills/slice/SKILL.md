@@ -28,7 +28,7 @@ Create it as a child of the epic, with one type label: `enhancement` for new beh
 
 No user story template and no Given/When/Then: the tests hold that detail. Name behaviour, not file paths or code. Label `security` each ticket that crosses a trust boundary: it adds authentication, sensitive data, an external integration, uploads or roles. Mark blockers in a second pass, once every ticket has its id. The project's issue template wins over this layout.
 
-A ticket is Ready when it has its context and its acceptance criteria. One without them is not taken.
+A ticket without its context or its acceptance criteria is not taken.
 
 ## Bugs
 

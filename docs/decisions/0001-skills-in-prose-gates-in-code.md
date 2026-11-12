@@ -1,7 +1,8 @@
-# Skills are prose, gates are code
+# Skills are prose, gates are the project's checks
 
-Skills describe how to do a step and leave judgment to the model. Anything that must hold every time, such as never merging with red checks or never pushing to `main`, is enforced by code: a test, a lint rule, a hook or a CLI command that refuses. When a review finds the same mistake twice, the fix is a new check, not another line in a skill.
+Skills describe how to do a step and leave judgment to the model. Anything that must hold every time, such as never merging with red checks, is a check of the project itself: a test, a lint rule or a CI job that the skills run and read. eng-flow brings none of its own (ADR 0022). When a review finds the same mistake twice, the fix is a new check in the project, not another line in a skill.
 
 ## Considered options
 
 - Rules written into every skill. Rejected: a model follows them most of the time, and the exceptions are the expensive ones.
+- Hooks or a CLI shipped by eng-flow that refuse. Rejected: they need a runtime in every project that installs the plugin.
