@@ -42,7 +42,7 @@ test('ship-ticket runs implement and file-pr and leaves a draft PR into the tick
 
 test('ship-ticket picks reviewers by the change-size threshold and always audits security tickets', () => {
   const text = skill('ship-ticket');
-  assert.match(text, /at most two files[^\n]*under 50 changed lines/);
+  assert.match(text, /at most two files[^\n]*under 50 changed lines[^\n]*authentication, payments, data access, configuration[^\n]*`Sensitive paths`/);
   assert.match(text, /`security`[^\n]*`security-audit`/);
   for (const reviewer of ['`code-review`', '`security-audit`', '`verify-as-user`']) assert.ok(text.includes(reviewer), reviewer);
 });
