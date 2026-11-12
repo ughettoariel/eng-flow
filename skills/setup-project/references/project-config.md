@@ -11,6 +11,7 @@ Tickets: github
 Branches: {prefix}/{number}-{slug}
 Sensitive paths: src/billing, src/auth
 Board: https://github.com/users/octocat/projects/1
+Agent account: none
 Run: npm run dev, then open http://localhost:3000
 Design board: none
 Glossary: CONTEXT.md
@@ -28,6 +29,7 @@ Anything the PR template does not already say.
 | `Tickets` | `wayfinder`, `spec`, `slice`, `grill`, `ship-ticket`, `run-epic` | None: those skills ask the owner once and suggest `setup-project`; `run-epic` needs `github` |
 | `Board` | `slice`, `ship-ticket`, `run-epic` | `none`: no board, and no skill moves a Status |
 | `Branches` | `ship-ticket`, `run-epic` | `{prefix}/{number}-{slug}`, the prefix from the type label as `ship-ticket` lists it; the epic is `epic/{number}-{slug}` |
+| `Agent account` | `ship-ticket`, `run-epic` | `none`: sessions run as whatever account `gh` and git already use |
 | `Sensitive paths` | `ship-ticket` | None: only the paths the size threshold already names |
 | `Run` | `verify-as-user` | Found from the README; a project verification skill named here wins |
 | `Design board` | `verify-as-user`, `file-pr` | `none`: captures go in the PR description |
@@ -35,6 +37,8 @@ Anything the PR template does not already say.
 | `ADRs` | `grill` | `docs/adr` |
 
 `Setup` is what a new worktree needs before its checks or its app run: installing dependencies, copying untracked files such as `.env`, and a port that does not collide with another session's.
+
+`Agent account` is the GitHub login agents act as, a machine account with write access to the repository. With a login, `ship-ticket` and `run-epic` stop when `gh` runs as anyone else. How a session gets that account depends on the harness; for Claude Code see [claude-code.md](../../ship-ticket/references/claude-code.md).
 
 `Board` is the GitHub Project of ticket states: `Backlog`, `In progress`, `Parked`, `In review`, `Done`. A ticket is Parked when its questions have no answer or it said `BLOCKED`; Parked does not count toward work in progress.
 
