@@ -7,4 +7,5 @@ findings:
   F3  Optional  code-review     skills/run-epic/SKILL.md:30                     epic review has no worktree or ignore rule for its reports
   F4  Optional  security-audit  skills/ship-ticket/references/claude-code.md:8  reviewers can read the agent token file and run checks with it set
   F5  Nit       security-audit  skills/run-epic/SKILL.md:33                     owner list leaves out the launch message
+  F6  FYI       security-audit  skills/wayfinder/SKILL.md:20                    "subagent" now means two things across skills
 verify: PASS  from #37 #38 #39 #40 #41 #42 #43 #49
