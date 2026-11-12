@@ -102,8 +102,7 @@ test('no shipped file says UI board', () => {
 });
 
 const boardStatuses = ['Backlog', 'In progress', 'Parked', 'In review', 'Done'];
-const setupFile = (name) =>
-  readFileSync(path.join(dirOf('setup-project'), 'references', name), 'utf8');
+const setupFile = (name) => readFileSync(path.join(dirOf('setup-project'), 'references', name), 'utf8');
 
 test('setup-project sets up the board with its five Status values and a Board line', () => {
   const setup = readFileSync(skillFile('setup-project'), 'utf8');
@@ -127,4 +126,29 @@ test('tracker.md adds tickets to the board and moves their Status through REST',
 
 test('slice puts each ticket it files in Backlog', () => {
   assert.match(readFileSync(skillFile('slice'), 'utf8'), /`Backlog`/);
+});
+
+// code-review and security-audit share Addy Osmani's scale: the verdict notes compare findings across rounds.
+const severities = ['Critical', 'Required', 'Optional', 'Nit', 'FYI'];
+
+test('code-review and security-audit report with the same severity scale', () => {
+  const bad = ['code-review', 'security-audit']
+    .filter((skill) => dirOf(skill))
+    .flatMap((skill) => {
+      const text = readFileSync(skillFile(skill), 'utf8');
+      return severities.filter((severity) => !text.includes(`\`${severity}\``)).map((s) => `${skill}: ${s}`);
+    });
+  assert.deepEqual(bad, []);
+  assert.match(
+    readFileSync(skillFile('code-review'), 'utf8'),
+    /`FAIL` when any `Critical` or `Required` is open/,
+  );
+});
+
+test('no shipped file uses the retired severities Important or Pre-existing', () => {
+  assert.deepEqual(linesMatching(/`(Important|Pre-existing)`/), []);
+});
+
+test('slice does not use the Ready state, which the board no longer has', () => {
+  assert.doesNotMatch(readFileSync(skillFile('slice'), 'utf8'), /\bReady\b/);
 });
