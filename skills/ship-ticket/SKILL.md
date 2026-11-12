@@ -51,8 +51,8 @@ A round reviews the PR's head commit and ends in one verdict note on it, as [ver
     git push origin HEAD:refs/heads/<epic branch>
     ```
 
-    A refused push means the epic branch moved: fetch and merge again, and stop with `BLOCKED` on a conflict. Then read the PR back with `gh pr view <pr> --json state,baseRefName`. GitHub marks it `MERGED` once its head is in its base; a PR still open means its base is no longer the epic branch, so say `BLOCKED` and tell the owner. Only when it reads `MERGED`, close the ticket (a PR into a branch other than the default one does not close it) and move it to `Done` when there is a `Board` line.
-15. **Into the repository's default branch** (`gh repo view --json defaultBranchRef --jq .defaultBranchRef.name`, usually `main`), stop with the PR ready: the owner merges it. `ship-ticket` never merges into the repository's default branch.
+    Before the push, run the project's checks on the merge commit: a push skips the checks a PR merge would wait for. A push refused as non-fast-forward means the epic branch moved: fetch and merge again, and stop with `BLOCKED` on a conflict. Any other refusal, such as branch protection, stops with `BLOCKED`. Then read the PR back with `gh pr view <pr> --json state,baseRefName`. GitHub marks it `MERGED` once its head is in its base; a PR still open means its base or its head changed after the check, so say `BLOCKED` and tell the owner. Only when it reads `MERGED`, close the ticket (a PR into a branch other than the default one does not close it) and move it to `Done` when there is a `Board` line.
+15. **Into the repository's default branch** (`gh repo view --json defaultBranchRef --jq .defaultBranchRef.name`, usually `main`), stop with the PR ready: the owner merges it. Its description carries `Closes #<ticket>`, so the merge closes the ticket and the board moves it to `Done`. `ship-ticket` never merges into the repository's default branch.
 
 ## Done
 

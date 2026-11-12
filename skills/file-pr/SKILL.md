@@ -45,6 +45,9 @@ When the change touches a UI directly, the description carries a capture of
 what changed, or links the flow on the project's Design board when
 `docs/agents/project.md` names one; an animation goes in as a short video.
 
+When the PR finishes a ticket and goes into the default branch, end the
+description with `Closes #<number>`, so the merge closes it.
+
 The repository's PR template and the PR rules in its `docs/agents/project.md`
 win over this layout; keep the "Created with" line.
 
