@@ -69,13 +69,17 @@ gh api -X PATCH $B/items/<item id> --input - <<< '{"fields":[{"id":<status field
 Creating a project and changing its Status options have no REST endpoint, so `setup-project` does them once, through GraphQL, in a session that allows it:
 
 ```bash
+# The repositories a project is linked to; any other than this one means it is shared
+gh api graphql -f query='query { user(login: "<login>") { projectV2(number: <n>) { repositories(first: 20) { nodes { nameWithOwner } } } } }'
+
+# A new project for this repository alone, named after it
 gh project create --owner <owner> --title '<repo>' --format json --jq .number
 gh project link <n> --owner <owner> --repo <owner>/<repo>
 
 # Replace the Status options. An option passed without its id is created again with a new one,
 # and every item in it loses its Status: pass the current id of each option that stays (from the
 # fields call above) and leave it out only for a new option. Items in an option that disappears
-# lose their Status too, so on a linked project move them first and show the owner which ones
+# lose their Status too, so on a project that already holds tickets move them first and show the owner which ones
 gh project field-list <n> --owner <owner> --format json --jq '.fields[] | select(.name == "Status") | .id'
 gh api graphql -f field=<status node id> -f query='mutation($field: ID!) { updateProjectV2Field(input: {fieldId: $field, singleSelectOptions: [
   {id: "<Backlog id>", name: "Backlog", color: GRAY, description: ""},
@@ -91,7 +95,7 @@ Check that the built-in workflow `Item closed` is on, since it moves a closed ti
 gh api graphql -f query='query { user(login: "<login>") { projectV2(number: <n>) { workflows(first: 20) { nodes { name enabled } } } } }'
 ```
 
-For an organisation's project, start the query from `organization(login: "<org>")`. When the mutation is refused, show the owner the five options to set by hand in the project's settings, and check them afterwards with the `fields` call above.
+For an organisation's project, start these queries from `organization(login: "<org>")`. When the mutation is refused, show the owner the five options to set by hand in the project's settings, and check them afterwards with the `fields` call above.
 
 ## Another tracker
 
