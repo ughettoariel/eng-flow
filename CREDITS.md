@@ -27,7 +27,7 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 - One approval before a run: the owner approves the spec and tickets once, then the epic runs.
 - `security-audit`: copied from `security-and-hardening`, its references and the `security-auditor` agent, turned into an audit of a diff.
 - The severity scale of `code-review` and `security-audit`: Critical, Required, Optional, Nit, FYI.
-- `ship-ticket` takes the reviewer threshold of `/ship` (at most two files, under 50 lines, no sensitive area) and the change sizes of `code-review-and-quality` (about 100, 300 and 1000 lines).
+- `ship-ticket` takes the reviewer threshold of `/ship` (at most two files, under 50 lines, no sensitive area) and, from the change sizes of `code-review-and-quality`, the point of about 300 lines where it proposes a split.
 
 ## Superpowers, by Jesse Vincent
 

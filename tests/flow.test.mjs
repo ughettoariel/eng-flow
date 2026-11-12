@@ -87,5 +87,5 @@ test('the config and tracker references name ship-ticket and run-epic among thei
   const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
   const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
   assert.match(config, /^\| `Tickets` \|[^\n]*`ship-ticket`[^\n]*`run-epic`/m);
-  assert.match(tracker.split('\n')[2], /`ship-ticket`[^\n]*`run-epic`/);
+  assert.match(tracker, /`ship-ticket` and `run-epic` name these operations/);
 });
