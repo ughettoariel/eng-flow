@@ -120,6 +120,9 @@ test('tracker.md adds tickets to the board and moves their Status through REST',
   assert.match(tracker, /^B=(users|orgs)\/<[a-z]+>\/projectsV2\/<n>$/m);
   assert.match(tracker, /gh api -X POST \$B\/items /);
   assert.match(tracker, /gh api -X PATCH \$B\/items\//);
+  assert.ok(tracker.includes('-f type=Issue -F id='));
+  assert.ok(tracker.includes('{"fields":[{"id":'));
+  assert.ok(tracker.includes('.content.repository_url'));
 });
 
 test('slice puts each ticket it files in Backlog', () => {
