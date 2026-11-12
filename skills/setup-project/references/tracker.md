@@ -39,7 +39,7 @@ gh api -X PATCH repos/{owner}/{repo}/issues/<number> -f state=closed -f state_re
 # Look up the id of an issue you only know by number, and who opened it
 gh api repos/{owner}/{repo}/issues/<number> --jq '{id, author: .user.login}'
 
-# Whether that person can write to the repository: write, maintain or admin
+# Whether that person can write to the repository: write or admin
 gh api repos/{owner}/{repo}/collaborators/<author>/permission --jq .permission
 ```
 
