@@ -19,7 +19,7 @@ Review only code you did not write; the author never reviews their own change.
 - Severity follows Addy Osmani's scale, shared with `security-audit`: `Critical` (breaks behaviour, loses data or opens a hole), `Required` (must be fixed before merge), `Optional` (worth doing, not required), `Nit` (minor) or `FYI` (already there before this change: a follow-up, never a reason to fail).
 - No style, and nothing lint or formatting catches. Name the class of a repeated bug once.
 - Start or end the report with a line that is only `PASS`, or only `FAIL` when any `Critical` or `Required` is open.
-- The report goes back to the session that asked for it, never to a PR comment.
+- The report goes back to the session that asked for it, never to a PR comment. That session writes it into the commit's verdict note, as [references/verdict-notes.md](references/verdict-notes.md) describes, and the next round reads that note to confirm each earlier finding.
 
 ## Done
 
