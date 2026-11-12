@@ -2,7 +2,7 @@
 
 A round's verdict is a git note on the commit it verified, under `refs/notes/eng-flow`. The note never changes the commit, never shows in the diff or the PR, survives the worktree or VM that wrote it, and binds the verdict to one SHA: a push after it needs a new round. No skill posts a commit status or writes a verdict into a PR, except the one line per ticket and the epic review's verdict that `run-epic` puts in the epic's PR into the default branch.
 
-The session that ran the round writes the note once every reviewer and `verify-as-user` have answered. Reviewers return their reports to that session and write nothing themselves.
+The session that ran the round writes the note once every reviewer and `verify-as-user` have answered. Reviewers, `verify-as-user` included, write their reports to `.eng-flow/reviews/` as the session's brief says, return their verdict, and write no note or anything else.
 
 ## Format
 
@@ -23,7 +23,8 @@ verify: PASS  criteria 1-3 walked at d4e5f6a
 - `previous` is the SHA of the round before; the first round has none. Following `previous` from the head gives the ticket's whole review history.
 - Findings get ids `F1`, `F2` within their note and are cited elsewhere as `<sha>#F1`. Each line has the id, the severity (`Critical`, `Required`, `Optional`, `Nit`, `FYI`), the reviewer, `file:line` and a short title. Notes are pushed to the remote, which anyone can read on a public repository: the exploit steps stay in the session's report, and a note never quotes a secret, even one the finding is about. The same holds for PR descriptions and commit messages, `Addresses:` trailers included: they are public too.
 - `resolved` closes every finding of the previous note as `fixed in <sha>`, `dismissed: <reason with a citation>` or `still open`. Nothing is left out. Only the next round's reviewer dismisses a finding, never the session that wrote the code: the reviewer returns its `resolved` lines in its report, and the session copies the reviewer's `resolved` block word for word. Dismissing a `Critical` or `Required` finding of `security-audit` needs the owner's answer in the live session's thread; a GitHub comment does not count, since a session can post one with the owner's token.
-- `verdict` is `PASS` only when no `Critical` or `Required` finding is open, nothing is `still open`, and `verify` passed. Otherwise it is `FAIL`.
+- `verdict` is `PASS` only when no `Critical` or `Required` finding is open or `still open`, and `verify` passed. Otherwise it is `FAIL`.
+- `Optional`, `Nit` and `FYI` findings, new or `still open`, do not block `PASS`. Those left on a PASS note are proposed to the owner as follow-up tickets, as `ship-ticket` and `run-epic` say, so none lives only in the note.
 
 A fix commit may carry the trailer `Addresses: <sha>#F1`. It helps the next reviewer find the fix; whether the finding is fixed is still that reviewer's call.
 

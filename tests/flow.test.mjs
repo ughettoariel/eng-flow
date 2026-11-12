@@ -279,3 +279,35 @@ test('each ticket session starts with wake_when_done', () => {
   const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
   assert.match(harness, /`start_session`[^\n]*`wake_when_done: true`/);
 });
+
+test('verify-as-user run as a reviewer returns its verdict and writes no note', () => {
+  const verify = skill('verify-as-user');
+  assert.match(verify, /run as a reviewer[^\n]*writes? no (verdict )?note/i);
+  assert.doesNotMatch(verify, /record the verdict on the commit/);
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /Reviewers, `verify-as-user` included,[^\n]*write no note/);
+  assert.match(notes, /`\.eng-flow\/reviews\/`/);
+  assert.match(skill('ship-ticket'), /edit nothing and write no note/);
+});
+
+test('Optional, Nit and FYI findings left on a PASS are proposed as follow-up tickets', () => {
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /no `Critical` or `Required` finding is open or `still open`/);
+  assert.match(notes, /`Optional`, `Nit` and `FYI` findings[^\n]*do not block `PASS`[^\n]*follow-up tickets/);
+  assert.match(
+    skill('ship-ticket'),
+    /`Optional`, `Nit` and `FYI` findings[^\n]*PASS note[^\n]*follow-up tickets[^\n]*owner/,
+  );
+  const epic = skill('run-epic');
+  assert.match(epic, /`Optional`, `Nit` and `FYI` findings of its PASS note[^\n]*follow-up tickets/);
+  assert.match(
+    epic,
+    /`Optional`, `Nit` and `FYI` findings left on the epic's PASS note[^\n]*follow-up tickets/,
+  );
+});
+
+test('the reviewer brief tells each reviewer to read its skill references', () => {
+  assert.match(skill('ship-ticket'), /the skill to follow and the `references\/` files it links/);
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /skill file to follow[^\n]*`references\/` files that skill links/);
+});
