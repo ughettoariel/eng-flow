@@ -11,6 +11,10 @@
     "format:check": "oxfmt --check",
     "secrets": "gitleaks dir . --redact --verbose"
   },
+  "devDependencies": {
+    "oxfmt": "0.78.0",
+    "oxlint": "1.93.0"
+  },
   "engines": {
     "node": ">=24"
   }

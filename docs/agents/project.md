@@ -1,6 +1,6 @@
 # Project
 
-Checks: npm test
+Checks: npm test && npm run lint && npm run format:check
 Tickets: github
 Board: https://github.com/users/ughettoariel/projects/2
 Agent account: none
