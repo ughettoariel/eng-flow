@@ -44,3 +44,15 @@ git push origin refs/notes/eng-flow                 # publish it; when refused, 
 ```
 
 Notes on different commits merge cleanly. Two notes on the same commit come out of the union merge concatenated, which can hold a PASS and a FAIL at once: rewrite that commit's note as one verdict from both before you push.
+
+## After a rebase
+
+A verdict covers a change, not a SHA, so a rebase onto a moved base keeps it when the change is the same. Compare the whole change at both heads, never single commits, and copy the note when they match:
+
+```bash
+old=$(git diff <old base>...<noted sha> | git patch-id --stable | cut -d' ' -f1)
+new=$(git diff origin/<base>...HEAD | git patch-id --stable | cut -d' ' -f1)
+[ "$old" = "$new" ] && git notes --ref=eng-flow copy <noted sha> HEAD && git push origin refs/notes/eng-flow
+```
+
+Different ids mean the change itself moved, as when a conflict was resolved: the new head needs a new round.

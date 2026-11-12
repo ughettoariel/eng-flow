@@ -9,6 +9,7 @@ Checks: npm test && npm run lint
 Setup: npm ci && cp ../.env .env
 Tickets: github
 Branches: {prefix}/{number}-{slug}
+Sensitive paths: src/billing, src/auth
 Board: https://github.com/users/octocat/projects/1
 Run: npm run dev, then open http://localhost:3000
 Design board: none
@@ -27,6 +28,7 @@ Anything the PR template does not already say.
 | `Tickets` | `wayfinder`, `spec`, `slice`, `grill` | None: those skills ask the owner once and suggest `setup-project` |
 | `Board` | `slice`, `ship-ticket`, `run-epic` | `none`: no board, and no skill moves a Status |
 | `Branches` | `ship-ticket`, `run-epic` | `{prefix}/{number}-{slug}`, the prefix from the type label as `ship-ticket` lists it; the epic is `epic/{number}-{slug}` |
+| `Sensitive paths` | `ship-ticket` | None: only the paths the size threshold already names |
 | `Run` | `verify-as-user` | Found from the README; a project verification skill named here wins |
 | `Design board` | `verify-as-user`, `file-pr` | `none`: captures go in the PR description |
 | `Glossary` | `grill`, `spec` | `CONTEXT.md` |
