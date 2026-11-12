@@ -163,3 +163,31 @@ test('setup-project proposes a new board when the Board line points at a shared 
   assert.match(setup, /never (change|touch)[^\n]*its Status options/i);
   assert.match(tracker, /repositories\(first: \d+\) \{ nodes \{ nameWithOwner \} \}/);
 });
+
+test('setup-project asks whether agents use their own GitHub account and writes the login or none', () => {
+  const setup = skill('setup-project');
+  const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
+  assert.match(setup, /agents use their own GitHub account/i);
+  assert.match(setup, /`Agent account: <login>` or `Agent account: none`/);
+  assert.match(config, /^Agent account: /m);
+  assert.match(config, /\| `Agent account` \| [^\n]*`ship-ticket`[^\n]*`run-epic`[^\n]*\| `none`/);
+});
+
+test('the Claude Code reference sets the agent account in .claude/settings.local.json', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /`\.claude\/settings\.local\.json`/);
+  assert.match(harness, /"GH_TOKEN": /);
+  assert.match(harness, /`GIT_AUTHOR_\*` and `GIT_COMMITTER_\*`/);
+  for (const name of ['GIT_AUTHOR_NAME', 'GIT_AUTHOR_EMAIL', 'GIT_COMMITTER_NAME', 'GIT_COMMITTER_EMAIL']) {
+    assert.match(harness, new RegExp('"' + name + '": '));
+  }
+});
+
+// With no agent account the owner's own login runs the flow, so the check must not fire on `none`.
+test('with Agent account set, ship-ticket and run-epic stop with BLOCKED on another login', () => {
+  for (const name of ['ship-ticket', 'run-epic']) {
+    const text = skill(name);
+    assert.match(text, /`Agent account`[^\n]*`gh api user --jq \.login`[^\n]*`BLOCKED`/, name);
+    assert.match(text, /`Agent account`[^\n]*(missing|`none`)[^\n]*no check/i, name);
+  }
+});

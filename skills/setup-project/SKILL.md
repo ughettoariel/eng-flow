@@ -27,11 +27,13 @@ Ask one batch the way `grill` does, with context and a recommended option per qu
 - **Keep the tracker the project already uses**, naming the one you found. eng-flow files nothing on GitHub.
 - **No tracker.** Specs and tickets stay in the session.
 
+Always ask whether agents use their own GitHub account, a machine account the owner added as a collaborator, so their commits and PRs do not read as the owner's. Recommend **No** unless the owner already has one; nothing in eng-flow requires it. The answer is the `Agent account` line: the account's login, or `none`.
+
 Ask for `Checks`, `Setup` or `Run` only when the repo left them unclear, and for the Design board only when the project has screens.
 
 ## Write it
 
-1. Write `docs/agents/project.md` with only the lines that differ from their default, and show it to the owner.
+1. Write `docs/agents/project.md` with only the lines that differ from their default, plus `Agent account: <login>` or `Agent account: none` so the answer is not asked again, and show it to the owner. With a login, point the owner at the harness reference of `ship-ticket` for giving sessions that account.
 2. With `Tickets: github`, check that `gh auth status` passes and that `gh api repos/{owner}/{repo} --jq .permissions.push` prints `true`; otherwise say what is missing. Then create the labels once the owner said yes: `gh label create <name>` for each of these that the repository lacks, leaving existing ones as they are. Type, one per ticket, which also names its branch: `enhancement`, `bug`, `documentation` (GitHub creates these three in every new repository), `chore`, `refactor`. Flow: `epic`, `spike`, `security`, `ready-for-agent`, `ready-for-human`.
 3. With `Tickets: github`, set up the board, the GitHub Project that holds each ticket's state. Each repository gets its own: create a Project named after the repository and link it only to that repository. When the `Board` line points at a Project linked to other repositories, say so, name them, and propose a new one in its place; never change that Project's links or its Status options, since the other repositories' boards use them. A `Board` Project linked to this repository alone is kept. The board's `Status` field has exactly `Backlog`, `In progress`, `Parked`, `In review` and `Done`; [tracker.md](references/tracker.md) has the commands. Keep the project's built-in workflow `Item closed` on, which sets a closed ticket's Status to `Done`. Write the project's URL as the `Board` line. Projects need the `project` scope: when `gh auth status` lacks it, ask the owner to run `gh auth refresh -s project`.
 4. Commit nothing; the owner decides whether the file goes in a PR.
