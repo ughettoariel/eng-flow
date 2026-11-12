@@ -57,6 +57,6 @@ pass on its head; only then turn it ready with `gh pr ready <pr>`. Never push to
 `main` or to an epic branch directly. A PR into `main` is the owner's to merge.
 
 Never put a question in a PR description or a PR comment: ask it in the session,
-or in `.eng-flow/questions/` when the owner is not there, as `grill` says. Do
+and park it in `.eng-flow/questions/` when it gets no answer, as `grill` says. Do
 not post a PR comment unless it serves the user's request. When a comment is
 needed, use the `leaving-pr-comments` skill.

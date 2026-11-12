@@ -11,7 +11,7 @@ description: Implement a ticket test-first: one failing test per acceptance crit
 4. Leave the code you touch at least as readable as you found it: clear names, one function per rule, and a comment only for a reason the code cannot show. Never write again what a shared helper already does; call it. Do not refactor code the ticket does not touch.
 5. Run the project's checks before you hand the work over: the `Checks` line of `docs/agents/project.md` when the project has one, otherwise the commands its README or CI runs.
 
-Return the diff summary and the check output, not a claim. When you need a decision, ask it the way `grill` does; when something blocks you, say `BLOCKED` and the cause.
+Return the diff summary and the check output, not a claim. When you need a decision, ask it in the thread the way `grill` does, and park it when no answer comes; when something blocks you, say `BLOCKED` and the cause.
 
 ## Done
 

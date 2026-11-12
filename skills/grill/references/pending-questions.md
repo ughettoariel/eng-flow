@@ -1,6 +1,8 @@
 # Pending questions
 
-A question waits in `.eng-flow/questions/` when the person who decides is not in the session. The folder sits in the main checkout, never in a worktree, so every session of the project reads the same files. Find it from any worktree:
+Every question is asked in the thread first. Park it in `.eng-flow/questions/` when no answer comes and the session has to go on: the question tool returned without an answer, nobody is on the session (a background or headless run), or the owner said to keep going. Then say in the thread that it is parked and keep working on what does not depend on it. When nothing can go on without the answer, park it anyway and stop with `BLOCKED` and the question. The file is how another session, or this one after a restart, knows the question is still open.
+
+The folder sits in the main checkout, never in a worktree, so every session of the project reads the same files. Find it from any worktree:
 
 ```bash
 echo "$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.eng-flow/questions"
@@ -33,4 +35,4 @@ B. What choosing it means and what it costs.
 
 ## When it is answered
 
-The session that asks it records the decision in the ticket's `## Decisions` section and deletes the file. A file that stays is a question still open.
+Whichever session gets the answer records the decision in the ticket's `## Decisions` section and deletes the file. A file that stays is a question still open.

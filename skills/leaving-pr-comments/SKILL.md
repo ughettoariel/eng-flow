@@ -32,7 +32,7 @@ the user explicitly asked to post verbatim without attribution.
 
 Comments are for other people: reviewers, collaborators and bots, and each one
 is noise on the PR, so leave one only when it is needed. A question for the
-owner goes to the session, or to `.eng-flow/questions/` when they are not there,
+owner goes to the session, parked in `.eng-flow/questions/` when it gets no answer,
 never to a GitHub comment. Write in English.
 
 Write the comment itself in a direct style:

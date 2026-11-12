@@ -28,7 +28,7 @@ An agent workflow for Claude Code, from an idea to a merged ticket. You decide w
 
 Support skills, used when needed: `ui-quality` (UI rules with scored scans), `unslop` (plain writing) and `leaving-pr-comments`.
 
-Questions go to the session that needs them. When you are not there, they wait in `.eng-flow/questions/` of the project, and the next session that starts lists them and offers a grill. The folder carries its own `.gitignore`, so it is never committed. PRs and issues stay free of question comments.
+Questions are asked in the thread of the session that needs them. One that gets no answer while the work goes on is parked in `.eng-flow/questions/` of the project, and the next session that starts lists it and offers a grill. The folder carries its own `.gitignore`, so it is never committed. PRs and issues stay free of question comments.
 
 ## Why
 
