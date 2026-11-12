@@ -145,3 +145,21 @@ test('the epic verify rule skips spikes, and the merge checks and Closes lines a
   assert.match(skill('ship-ticket'), /a failing check stops with `BLOCKED` and nothing is pushed/);
   assert.match(skill('file-pr'), /`Closes #<number>`/);
 });
+
+// A Project shared by several repositories mixes their tickets, and its Status options are theirs too.
+test('setup-project creates a board named after the repository and links it only to that one', () => {
+  const setup = skill('setup-project');
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(setup, /create a Project named after the repository[^\n]*link it only to that repository/i);
+  assert.doesNotMatch(setup, /link a project the owner already has/i);
+  assert.match(tracker, /gh project create --owner <owner> --title '<repo>'/);
+  assert.match(tracker, /gh project link <n> --owner <owner> --repo <owner>\/<repo>/);
+});
+
+test('setup-project proposes a new board when the Board line points at a shared Project', () => {
+  const setup = skill('setup-project');
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(setup, /`Board` line points at a Project linked to other repositories[^\n]*say so[^\n]*propose a new one/i);
+  assert.match(setup, /never (change|touch)[^\n]*its Status options/i);
+  assert.match(tracker, /repositories\(first: \d+\) \{ nodes \{ nameWithOwner \} \}/);
+});
