@@ -15,6 +15,7 @@ The result is `docs/agents/project.md` in the shape of [references/project-confi
 4. `Run`: how to start the app and where to open it, or a project skill that already verifies it.
 5. `Tickets`: signs of a tracker already in use. Ticket keys in branch names, commits or PR titles (`ABC-123`), tracker links in the README or PR template, `.github/ISSUE_TEMPLATE/`, open issues with `gh issue list --limit 20`.
 6. `Glossary` and `ADRs`: an existing glossary file and decision folder.
+7. `Branches`: the naming the repository already uses, read from recent branch names and merged PRs. Write the line only when it differs from the eng-flow default, `{prefix}/{number}-{slug}` with the prefix from the type label.
 
 A fact the repo answers is never a question.
 
