@@ -51,10 +51,9 @@ test('ship-ticket parks a ticket after three rounds without PASS', () => {
   assert.match(skill('ship-ticket'), /three rounds[^\n]*`Parked`/);
 });
 
-test('ship-ticket turns the PR ready only on a PASS note and merges only into an epic branch', () => {
+test('ship-ticket turns the PR ready only on a PASS note', () => {
   const text = skill('ship-ticket');
   assert.match(text, /PASS note on the head commit[^\n]*`gh pr ready`/);
-  assert.match(text, /never merges into `main`/);
 });
 
 test('run-epic names no harness and borrows the harness reference of ship-ticket', () => {
@@ -81,6 +80,21 @@ test('run-epic reviews the whole epic against main and leaves its PR ready with 
   const text = skill('run-epic');
   assert.match(text, /epic branch against `main`/);
   assert.match(text, /one line per ticket/);
+});
+
+test('ship-ticket merges only the noted head into the epic branch it was given', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /merge only when the base step 3 chose is an `epic\/\*` branch[^\n]*SHA the PASS note sits on/);
+  assert.match(text, /git merge --no-ff --no-edit <noted sha>/);
+  assert.match(text, /git push origin HEAD:refs\/heads\/<epic branch>/);
+  assert.match(text, /never merges into the repository's default branch/);
+});
+
+test('only the next reviewer dismisses a finding, and the owner a serious security one', () => {
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /Only the next round's reviewer dismisses a finding/);
+  assert.match(notes, /copies the reviewer's `resolved` block word for word/);
+  assert.match(notes, /`security-audit`[^\n]*needs the owner/);
 });
 
 test('the config and tracker references name ship-ticket and run-epic among their readers', () => {

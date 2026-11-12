@@ -13,7 +13,7 @@ When something blocks you, say `BLOCKED` and the cause, park any open question a
 
 1. Read the ticket, `docs/agents/project.md`, and `.eng-flow/handoff.md` when `run-epic` left one: it names the base branch and anything the launch decided.
 2. Size it again before any code. A ticket with more than three acceptance criteria, or whose text asks for work its criteria do not cover, stops: say `BLOCKED` and propose the split into tickets of at most three criteria. Do not start the part that fits.
-3. The base is the epic branch from the handoff; without a handoff, the remote branch `epic/{number}-*` of the ticket's epic when it has one, otherwise `main`.
+3. The base is the epic branch from the handoff; without a handoff, the remote branch `epic/{number}-*` of the ticket's epic when it has one, otherwise the repository's default branch.
 4. The ticket's branch is `{prefix}/{number}-{slug}`, with the slug a few words of the title in kebab case. The prefix comes from the ticket's type label, unless the `Branches` line of `docs/agents/project.md` names another convention:
 
    | Label | Branch |
@@ -42,9 +42,18 @@ A round reviews the PR's head commit and ends in one verdict note on it, as [ver
 ## Merge
 
 13. Before merging, check the head still has its PASS note. After a rebase onto a moved base, [verdict-notes.md](../code-review/references/verdict-notes.md) says when the note carries over to the new head; otherwise the head needs a new round.
-14. **Into an epic branch**, merge it yourself with `gh pr merge <pr> --merge`, then read the PR back with `gh pr view <pr> --json state,mergedAt,baseRefName`: a merge command can report success for a PR that only queued. Only when `state` is `MERGED` into the epic branch, close the ticket (a PR into a branch other than the default one does not close it) and move it to `Done` when there is a `Board` line. A PR still open or queued is not merged: wait for it, or say `BLOCKED` with what holds it.
-15. **Into `main`**, stop with the PR ready: the owner merges it. `ship-ticket` never merges into `main`.
+14. **Into an epic branch**, merge only when the base step 3 chose is an `epic/*` branch, and the PR's head (`gh pr view <pr> --json baseRefName,headRefOid`) is the SHA the PASS note sits on. Merge on your side and push to that branch by name, so a PR whose base someone changed cannot carry the merge anywhere else:
+
+    ```bash
+    git fetch origin <epic branch>
+    git switch --detach origin/<epic branch>
+    git merge --no-ff --no-edit <noted sha>
+    git push origin HEAD:refs/heads/<epic branch>
+    ```
+
+    A refused push means the epic branch moved: fetch and merge again, and stop with `BLOCKED` on a conflict. Then read the PR back with `gh pr view <pr> --json state,baseRefName`. GitHub marks it `MERGED` once its head is in its base; a PR still open means its base is no longer the epic branch, so say `BLOCKED` and tell the owner. Only when it reads `MERGED`, close the ticket (a PR into a branch other than the default one does not close it) and move it to `Done` when there is a `Board` line.
+15. **Into the repository's default branch** (`gh repo view --json defaultBranchRef --jq .defaultBranchRef.name`, usually `main`), stop with the PR ready: the owner merges it. `ship-ticket` never merges into the repository's default branch.
 
 ## Done
 
-The ticket's PR has a PASS note on its head and is merged into its epic branch or ready for the owner to merge into `main`; or the session stopped with `BLOCKED`, its cause, and the ticket in `Parked`.
+The ticket's PR has a PASS note on its head and is merged into its epic branch or ready for the owner to merge into the default branch; or the session stopped with `BLOCKED`, its cause, and the ticket in `Parked`.

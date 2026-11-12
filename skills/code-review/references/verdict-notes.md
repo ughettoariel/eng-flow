@@ -21,7 +21,7 @@ verify: PASS  criteria 1-3 walked at d4e5f6a
 
 - `previous` is the SHA of the round before; the first round has none. Following `previous` from the head gives the ticket's whole review history.
 - Findings get ids `F1`, `F2` within their note and are cited elsewhere as `<sha>#F1`. Each line has the id, the severity (`Critical`, `Required`, `Optional`, `Nit`, `FYI`), the reviewer, `file:line` and the problem.
-- `resolved` closes every finding of the previous note as `fixed in <sha>`, `dismissed: <reason with a citation>` or `still open`. Nothing is left out.
+- `resolved` closes every finding of the previous note as `fixed in <sha>`, `dismissed: <reason with a citation>` or `still open`. Nothing is left out. Only the next round's reviewer dismisses a finding, never the session that wrote the code: the reviewer returns its `resolved` lines in its report, and the session copies the reviewer's `resolved` block word for word. Dismissing a `Critical` or `Required` finding of `security-audit` needs the owner's answer in the live session's thread; a GitHub comment does not count, since a session can post one with the owner's token.
 - `verdict` is `PASS` only when no `Critical` or `Required` finding is open, nothing is `still open`, and `verify` passed. Otherwise it is `FAIL`.
 
 A fix commit may carry the trailer `Addresses: <sha>#F1`. It helps the next reviewer find the fix; whether the finding is fixed is still that reviewer's call.
