@@ -38,3 +38,20 @@ test('ship-ticket runs implement and file-pr and leaves a draft PR into the tick
   const text = skill('ship-ticket');
   for (const step of ['`implement`', '`file-pr`', 'draft']) assert.ok(text.includes(step), step);
 });
+
+test('ship-ticket picks reviewers by the change-size threshold and always audits security tickets', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /at most two files[^\n]*under 50 changed lines/);
+  assert.match(text, /`security`[^\n]*`security-audit`/);
+  for (const reviewer of ['`code-review`', '`security-audit`', '`verify-as-user`']) assert.ok(text.includes(reviewer), reviewer);
+});
+
+test('ship-ticket parks a ticket after three rounds without PASS', () => {
+  assert.match(skill('ship-ticket'), /three rounds[^\n]*`Parked`/);
+});
+
+test('ship-ticket turns the PR ready only on a PASS note and merges only into an epic branch', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /PASS note on the head commit[^\n]*`gh pr ready`/);
+  assert.match(text, /never merges into `main`/);
+});
