@@ -9,6 +9,8 @@
 | Mark a blocker | Ticket A cannot start until ticket B is closed |
 | List the ready ones | Open children of the epic with no open blocker |
 | Edit or close | Replace a body, or close as completed or not planned |
+| Add to the board | Put a ticket on the board in a Status |
+| Move on the board | Change a ticket's Status |
 
 ## GitHub
 
@@ -37,6 +39,43 @@ gh api -X PATCH repos/{owner}/{repo}/issues/<number> -f state=closed -f state_re
 # Look up the id of an issue you only know by number
 gh api repos/{owner}/{repo}/issues/<number> --jq .id
 ```
+
+## The board
+
+The `Board` URL gives the REST path: `https://github.com/users/<login>/projects/<n>` is `users/<login>/projectsV2/<n>`, and `https://github.com/orgs/<org>/projects/<n>` is `orgs/<org>/projectsV2/<n>`. Adding and moving go through REST, so they work where GraphQL is refused.
+
+```bash
+B=users/<login>/projectsV2/<n>
+
+# The Status field id and its option ids; a Status is set by option id, never by name
+gh api $B/fields --jq '.[] | select(.name == "Status") | {id, options: [.options[] | {id, name: .name.raw}]}'
+
+# Add a ticket to the board; prints the item id
+gh api -X POST $B/items -f type=Issue -F id=<issue id> --jq .id
+
+# Find the item id of a ticket already on the board
+gh api "$B/items?per_page=100" --paginate --jq '.[] | select(.content.number == <number>) | .id'
+
+# Move it: one field, the option id of the new Status
+gh api -X PATCH $B/items/<item id> --input - <<< '{"fields":[{"id":<status field id>,"value":"<option id>"}]}'
+```
+
+Creating a project and changing its Status options have no REST endpoint, so `setup-project` does them once, through GraphQL, in a session that allows it:
+
+```bash
+gh project create --owner <owner> --title '<repo>' --format json --jq .number
+gh project link <n> --owner <owner> --repo <owner>/<repo>
+
+# Replace the Status options. Items in an option that disappears lose their Status, so on a
+# linked project first move them, and show the owner which ones
+gh project field-list <n> --owner <owner> --format json --jq '.fields[] | select(.name == "Status") | .id'
+gh api graphql -f field=<status node id> -f query='mutation($field: ID!) { updateProjectV2Field(input: {fieldId: $field, singleSelectOptions: [
+  {name: "Backlog", color: GRAY, description: ""}, {name: "In progress", color: YELLOW, description: "At most two"},
+  {name: "Parked", color: ORANGE, description: "Waiting on an answer"}, {name: "In review", color: PURPLE, description: ""},
+  {name: "Done", color: GREEN, description: ""}]}) { projectV2Field { ... on ProjectV2SingleSelectField { options { name } } } } }'
+```
+
+When the mutation is refused, show the owner the five options to set by hand in the project's settings, and check them afterwards with the `fields` call above.
 
 The labels must exist first; `setup-project` creates them. Where the blocked-by endpoint answers 404 (some GitHub Enterprise Server versions), write `Blocked by #<number>` as the first line of the blocked ticket's body and read it from there.
 

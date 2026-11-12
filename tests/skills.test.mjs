@@ -100,3 +100,28 @@ test('no shipped file names a type: label, which setup-project no longer creates
 test('no shipped file says UI board', () => {
   assert.deepEqual(linesMatching(/UI board/i), []);
 });
+
+const boardStatuses = ['Backlog', 'In progress', 'Parked', 'In review', 'Done'];
+const setupFile = (name) =>
+  readFileSync(path.join(dirOf('setup-project'), 'references', name), 'utf8');
+
+test('setup-project sets up the board with its five Status values and a Board line', () => {
+  const setup = readFileSync(skillFile('setup-project'), 'utf8');
+  assert.deepEqual(
+    boardStatuses.filter((status) => !setup.includes(`\`${status}\``)),
+    [],
+  );
+  assert.match(setupFile('project-config.md'), /^Board: /m);
+});
+
+// Moving a Status happens on every ticket, in sessions whose proxy may refuse GraphQL.
+test('tracker.md adds tickets to the board and moves their Status through REST', () => {
+  const tracker = setupFile('tracker.md');
+  assert.match(tracker, /^B=(users|orgs)\/<[a-z]+>\/projectsV2\/<n>$/m);
+  assert.match(tracker, /gh api -X POST \$B\/items /);
+  assert.match(tracker, /gh api -X PATCH \$B\/items\//);
+});
+
+test('slice puts each ticket it files in Backlog', () => {
+  assert.match(readFileSync(skillFile('slice'), 'utf8'), /`Backlog`/);
+});
