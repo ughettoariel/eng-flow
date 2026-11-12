@@ -122,3 +122,26 @@ test('the config and tracker references name ship-ticket and run-epic among thei
   assert.match(config, /^\| `Tickets` \|[^\n]*`ship-ticket`[^\n]*`run-epic`/m);
   assert.match(tracker, /`ship-ticket` and `run-epic` name these operations/);
 });
+
+test('an epic review writes a note of its own form with a defined verify line', () => {
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /`epic: <number>`/);
+  assert.match(notes, /an epic note's `verify` line/i);
+});
+
+test('PRs into the default branch close their issue, and the board moves it to Done', () => {
+  assert.match(skill('ship-ticket'), /`Closes #<ticket>`/);
+  assert.match(skill('run-epic'), /`Closes #<epic>`/);
+  assert.match(skill('setup-project'), /`Item closed`[^\n]*`Done`/);
+});
+
+test('approved epic-review tickets are filed the way slice files them', () => {
+  assert.match(skill('run-epic'), /file each approved one the way `slice` does[^\n]*type label[^\n]*`Backlog`/);
+});
+
+test('the epic verify rule skips spikes, and the merge checks and Closes lines are pinned', () => {
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /any ticket merged through `ship-ticket` has no PASS note/);
+  assert.match(skill('ship-ticket'), /a failing check stops with `BLOCKED` and nothing is pushed/);
+  assert.match(skill('file-pr'), /`Closes #<number>`/);
+});
