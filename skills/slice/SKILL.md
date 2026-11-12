@@ -14,7 +14,7 @@ A ticket reads without opening its epic. The tests `implement` writes carry the 
 1. Slice the epic's spec into tickets. Each cuts one thin, complete path through the layers it needs (data, API, UI, tests) and can be verified on its own. Prefactoring that makes the slices easy comes first, as a `refactor` ticket.
 2. A ticket has at most three acceptance criteria. One with more is two tickets.
 3. Cut so tickets run in parallel where the code allows: two tickets that touch different modules do not block each other. Record a blocker only for a real dependency, where one ticket cannot start or pass its tests without the other merged.
-4. A wide mechanical refactor goes expand-contract: add the new form beside the old, migrate callers in batches (each its own task, blocked by the expand), then delete the old form in a task blocked by every batch.
+4. A wide mechanical refactor goes expand-contract: add the new form beside the old, migrate callers in batches (each its own `refactor` ticket, blocked by the expand), then delete the old form in a `refactor` ticket blocked by every batch.
 5. Count the tickets. An epic with more than eight is two epics: stop and propose the split to the owner instead of filing them.
 
 ## Each ticket

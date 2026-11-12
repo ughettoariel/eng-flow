@@ -93,7 +93,7 @@ test('setup-project creates every ticket label the skills use', () => {
 });
 
 test('no shipped file names a type: label, which setup-project no longer creates', () => {
-  assert.deepEqual(linesMatching(/type:(epic|story|task|bug|spike)\b/), []);
+  assert.deepEqual(linesMatching(/type:[a-z]/), []);
 });
 
 // "Board" alone means the GitHub Project of ticket states; the screens live on the Design board.
