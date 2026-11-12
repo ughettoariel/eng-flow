@@ -1,7 +1,7 @@
 {
   "name": "eng-flow",
   "version": "0.3.0",
-  "description": "An agent workflow: setup-project, grill, wayfinder, spec, slice, diagnose, implement, ship-ticket, run-epic, code-review, security-audit, verify-as-user and file-pr.",
+  "description": "An agent workflow: setup-project, grill, wayfinder, spec, slice, diagnose, implement, ship-ticket, code-review, security-audit, verify-as-user and file-pr.",
   "author": {
     "name": "ughettoariel"
   },

@@ -13,7 +13,8 @@ When something blocks you, say `BLOCKED` and the cause, park any open question a
 
 1. Read the ticket, `docs/agents/project.md`, and `.eng-flow/handoff.md` when `run-epic` left one: it names the base branch and anything the launch decided.
 2. Size it again before any code. A ticket with more than three acceptance criteria, or whose text asks for work its criteria do not cover, stops: say `BLOCKED` and propose the split into tickets of at most three criteria. Do not start the part that fits.
-3. When the worktree is already on the ticket's branch, as after a resumed session, keep it and skip to step 5. Otherwise name the branch `{prefix}/{number}-{slug}`, with the slug a few words of the title in kebab case. The prefix comes from the ticket's type label, unless the `Branches` line of `docs/agents/project.md` names another convention:
+3. The base is the epic branch from the handoff; without a handoff, the remote branch `epic/{number}-*` of the ticket's epic when it has one, otherwise `main`.
+4. The ticket's branch is `{prefix}/{number}-{slug}`, with the slug a few words of the title in kebab case. The prefix comes from the ticket's type label, unless the `Branches` line of `docs/agents/project.md` names another convention:
 
    | Label | Branch |
    | --- | --- |
@@ -23,8 +24,7 @@ When something blocks you, say `BLOCKED` and the cause, park any open question a
    | `chore` | `chore/` |
    | `refactor` | `refactor/` |
 
-   A ticket with no type label stops here: ask its type in the thread, the way `grill` asks.
-4. The base is the epic branch from the handoff; without a handoff, the remote branch `epic/{number}-*` of the ticket's epic when it has one, otherwise `main`. Branch from the base as it is on the remote.
+   A ticket with no type label stops here: ask its type in the thread, the way `grill` asks. When the worktree is already on the ticket's branch, as in a resumed session, keep it; otherwise create the branch from the base as it is on the remote.
 5. A `bug` ticket starts with `diagnose`, whose failing test becomes `implement`'s first criterion.
 6. Run `implement`. When its diff passes about 300 changed lines and holds more than one logical change, propose the split in the thread before going on.
 7. Run `file-pr`: a draft PR into the base.
