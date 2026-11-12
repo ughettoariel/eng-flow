@@ -1,0 +1,12 @@
+ticket: 37
+round: 1
+verdict: FAIL
+findings:
+  F1  Required  code-review     skills/ship-ticket/references/claude-code.md:5  reviewer allowlist lacks gh pr checks, git notes and the Checks commands
+  F2  Required  security-audit  skills/ship-ticket/SKILL.md:36                  .eng-flow/reviews/ is ignored only when run-epic wrote .eng-flow/.gitignore
+  F3  Optional  code-review     skills/ship-ticket/references/claude-code.md:5  a failed or cut reviewer is not detected; stderr mixes into the report
+  F4  Optional  security-audit  skills/ship-ticket/references/claude-code.md:5  git diff --output can write files from the allowlist
+  F5  Optional  security-audit  skills/ship-ticket/references/claude-code.md:5  verify-as-user allowlist should name exact Run commands
+  F6  FYI       security-audit  skills/ship-ticket/references/claude-code.md:5  Read is unrestricted in headless reviewers
+  F7  Nit       code-review     skills/ship-ticket/references/claude-code.md:9  "once the owner answers" reads as every launch waiting on the owner
+verify: PASS  criteria 1-3 walked at 62c9820
