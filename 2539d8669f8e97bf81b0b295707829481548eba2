@@ -1,0 +1,10 @@
+ticket: 32
+round: 1
+verdict: PASS
+findings:
+  F1  Optional  code-review     skills/setup-project/SKILL.md:30            "Always ask" re-asks when an Agent account line exists
+  F2  Optional  code-review     skills/ship-ticket/SKILL.md:15              login comparison has no case rule
+  F3  Optional  security-audit  skills/ship-ticket/references/claude-code.md:23  no step when check-ignore prints nothing
+  F4  Optional  security-audit  skills/ship-ticket/references/claude-code.md:23  token permissions not named
+  F5  Nit       code-review     tests/flow.test.mjs:190     BLOCKED assertion tied to one prose line
+verify: PASS  criteria 1-3 walked at 2539d86
