@@ -15,7 +15,7 @@ Proof is what you observed yourself in this session, in the running app. Green t
 
 ## Return the verdict
 
-The report goes back to the session that asked for it, one line per criterion with pass or fail and the commit walked. That session writes it into the commit's verdict note, as [verdict-notes.md](../code-review/references/verdict-notes.md) describes. A fail names the criterion and the step, and the ticket goes back to `implement`.
+The report goes back to the session that asked for it, one line per criterion with pass or fail and the commit walked. That session records its verdict in the commit's verdict note, as [verdict-notes.md](../code-review/references/verdict-notes.md) describes. A fail names the criterion and the step, and the ticket goes back to `implement`.
 
 With no environment to run it (missing credentials, a service that is down, no `Setup` for a fresh worktree), say `BLOCKED` with what is missing. Never report a pass without the walk. When no criterion has anything a person can see, say so in the report and name the tests that cover them.
 
