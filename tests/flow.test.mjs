@@ -191,6 +191,41 @@ test('setup-project proposes a new board when the Board line points at a shared 
   assert.match(tracker, /repositories\(first: \d+\) \{ nodes \{ nameWithOwner \} \}/);
 });
 
+// The board's items endpoint returns no field values unless the request names the field.
+test('tracker.md reads a ticket Status by asking the items endpoint for the Status field', () => {
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(tracker, /\$B\/items[^\n]*fields\[\]=<status field id>/);
+  assert.match(tracker, /select\(\.name == "Status"\) \| \.value\.name\.raw/);
+});
+
+test("tracker.md maps a new Project's Todo, In Progress and Done ids onto the eng-flow Status", () => {
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(
+    tracker,
+    /new Project[^\n]*`Todo`[^\n]*`Backlog`[^\n]*`In Progress`[^\n]*`In progress`[^\n]*`Done`[^\n]*`Done`/,
+  );
+});
+
+test("setup-project names the Project's built-in workflows that move a Status and which stay on", () => {
+  const setup = skill('setup-project');
+  for (const workflow of [
+    'Item added to project',
+    'Item closed',
+    'Item reopened',
+    'Pull request merged',
+    'Pull request linked to issue',
+    'Code changes requested',
+    'Code review approved',
+  ]) {
+    assert.match(setup, new RegExp(`\`${workflow}\``));
+  }
+  assert.match(
+    setup,
+    /Keep[^\n]*`Item added to project`[^\n]*`Item closed`[^\n]*`Pull request merged`[^\n]*on/,
+  );
+  assert.match(setup, /turn off[^\n]*`Item reopened`[^\n]*`Pull request linked to issue`/i);
+});
+
 test('setup-project asks whether agents use their own GitHub account and writes the login or none', () => {
   const setup = skill('setup-project');
   const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
