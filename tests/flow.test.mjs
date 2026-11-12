@@ -96,3 +96,10 @@ test('only the next reviewer dismisses a finding, and the owner a serious securi
   assert.match(notes, /copies the reviewer's `resolved` block word for word/);
   assert.match(notes, /`security-audit`[^\n]*needs the owner/);
 });
+
+test('the config and tracker references name ship-ticket and run-epic among their readers', () => {
+  const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(config, /^\| `Tickets` \|[^\n]*`ship-ticket`[^\n]*`run-epic`/m);
+  assert.match(tracker, /`ship-ticket` and `run-epic` name these operations/);
+});
