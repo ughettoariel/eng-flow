@@ -1,0 +1,11 @@
+ticket: 31
+round: 1
+verdict: PASS
+findings:
+  F1  Optional  code-review     skills/setup-project/SKILL.md:36                 no rule for a Board Project linked to no repository or to another one only
+  F2  Nit       code-review     skills/setup-project/references/tracker.md:72    repositories(first: 20) lists at most 20 names
+  F3  FYI       code-review     tests/flow.test.mjs:149                          prose assertions prove wording, the seam the ticket names
+  F4  Optional  security-audit  skills/setup-project/SKILL.md:36                 sharing judged by links only, not by the items the Project holds
+  F5  Optional  security-audit  skills/setup-project/references/tracker.md:72    a failed linked-repositories query should count as shared
+  F6  FYI       security-audit  skills/setup-project/references/tracker.md:72    linked-repositories query has no pagination
+verify: PASS  criteria 1-2 walked at 3d65202
