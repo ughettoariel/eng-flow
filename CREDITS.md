@@ -24,6 +24,7 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 
 - One approval before a run: the owner approves the spec and tickets once, then the epic runs.
 - `security-audit`: copied from `security-and-hardening`, its references and the `security-auditor` agent, turned into an audit of a diff.
+- The severity scale of `code-review` and `security-audit`: Critical, Required, Optional, Nit, FYI.
 
 ## Superpowers, by Jesse Vincent
 
