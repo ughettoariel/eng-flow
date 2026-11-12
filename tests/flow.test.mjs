@@ -387,3 +387,21 @@ test('run-epic checks the ticket session before asking the owner a parked questi
     /before asking the owner a parked question[^\n]*`## Decisions`[^\n]*ticket's (live )?session/i,
   );
 });
+
+// A headless call gets only the tools its allow-list names, so it can drive no browser or simulator and save no capture.
+test('in a project with screens, verify-as-user runs in the ticket session and keeps its captures in .eng-flow/reviews', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /project with screens[^\n]*`verify-as-user` runs in the ticket session[^\n]*instead of a headless call/,
+  );
+  assert.match(harness, /captures[^\n]*`\.eng-flow\/reviews\/<head sha>-captures\/`/);
+});
+
+test('when the Run line names no command, verify-as-user gets the reviewer tools and no Bash for Run', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /`Run` line names no command[^\n]*`Run: no app`[^\n]*`verify-as-user` gets the same tools as the other reviewers/,
+  );
+});
