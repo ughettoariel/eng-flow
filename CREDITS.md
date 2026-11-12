@@ -9,6 +9,8 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 - Its principle skills shaped `implement` and `verify-as-user`: prove it works on the real artifact, fix root causes, test behaviour and not implementation.
 - `verify-as-user` takes its idea that each project owns how its app is started and driven, from `create-verification-skill`.
 - Starting with one unit of work and widening only once it went well.
+- `run-epic` follows its `orchestrate` playbook: run the program and never the code, read live PR state instead of reports, one writer per branch, retry by cause and stop after two.
+- `ship-ticket` follows its `shipping` playbook: a verdict only from an agent that did not write the code, a verdict that covers the change across a rebase, and a merge read back before it counts.
 
 ## Matt Pocock's skills
 
@@ -23,6 +25,9 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), MIT.
 
 - One approval before a run: the owner approves the spec and tickets once, then the epic runs.
+- `security-audit`: copied from `security-and-hardening`, its references and the `security-auditor` agent, turned into an audit of a diff.
+- The severity scale of `code-review` and `security-audit`: Critical, Required, Optional, Nit, FYI.
+- `ship-ticket` takes the reviewer threshold of `/ship` (at most two files, under 50 lines, no sensitive area) and, from the change sizes of `code-review-and-quality`, the point of about 300 lines where it proposes a split.
 
 ## Superpowers, by Jesse Vincent
 

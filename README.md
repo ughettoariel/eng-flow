@@ -1,6 +1,6 @@
 # eng-flow
 
-An agent workflow for Claude Code, from an idea to a merged ticket. You decide what to build with the agent, approve the spec and its tickets once, and each ticket runs in a session you can open and steer until its PR merges. Skills are prose; anything that must hold every time is a check in code.
+An agent workflow for Claude Code and any harness that reads `SKILL.md`, from an idea to a merged ticket. You decide what to build with the agent, approve the spec and its tickets once, and each ticket runs in a session you can open and steer until its PR merges. Skills are prose; anything that must hold every time is a check of the project itself.
 
 ## The flow
 
@@ -15,14 +15,20 @@ An agent workflow for Claude Code, from an idea to a merged ticket. You decide w
                            slice       cuts it into at most 8 tickets, each with at most 3 criteria
                            you approve the spec and the tickets once
 
-3  One ticket              diagnose        bugs: a test that fails for the reported reason
+3  The epic                run-epic        launches ready tickets, at most two in progress,
+                                           keeps the board current, reviews the whole epic
+                                           and leaves its PR into main for the owner
+
+4  One ticket              ship-ticket     runs, in order:
+                           diagnose        bugs: a test that fails for the reported reason
                            implement       a failing test per criterion, the smallest change
                            file-pr         a draft PR, problem before fix
                            code-review     a reviewer that did not write it: PASS or FAIL
+                           security-audit  a threat model of the diff: PASS or FAIL
                            verify-as-user  each criterion walked in the running app
 ```
 
-Which ticket runs next, and in which session, is the owner's call. The [roadmap issue](https://github.com/ughettoariel/eng-flow/issues/2) tracks the orchestration that is not built.
+Each round's verdict is a git note on the commit it verified, under `refs/notes/eng-flow`, so PRs carry no statuses or verdict comments. A ticket merges itself into its epic branch on a PASS note; anything into `main` waits for the owner.
 
 Questions are asked in the thread of the session that needs them. One that gets no answer while the work goes on is parked in `.eng-flow/questions/` of that checkout, named after its ticket, and read again when the owner asks for that ticket's pending questions. The folder carries its own `.gitignore`, so it is never committed. PRs and issues stay free of question comments.
 
@@ -62,7 +68,7 @@ claude plugin install ui-quality@ughettoariel
 
 Update with `claude plugin marketplace update ughettoariel`; Claude Code installs a new version when the `version` in a plugin's `.claude-plugin/plugin.json` goes up.
 
-In each project, run `setup-project` once. It writes `docs/agents/project.md` with the project's checks, how to set up a fresh worktree and run the app, where its tickets live and its UI board, if it has one.
+In each project, run `setup-project` once. It writes `docs/agents/project.md` with the project's checks, how to set up a fresh worktree and run the app, where its tickets live and its Design board, if it has one.
 
 ## Developing eng-flow
 

@@ -2,7 +2,7 @@
 
 One file per decision, in the format of [the grill skill's ADR reference](../../skills/grill/references/adr-format.md).
 
-- [0001](./0001-skills-in-prose-gates-in-code.md) Skills are prose, gates are code
+- [0001](./0001-skills-in-prose-gates-in-code.md) Skills are prose, gates are the project's checks
 - [0003](./0003-one-approval-before-a-run.md) One approval before a run
 - [0005](./0005-skills-are-copied-not-linked.md) Skills are copied, not linked
 - [0007](./0007-one-epic-one-outcome.md) One epic, one outcome
