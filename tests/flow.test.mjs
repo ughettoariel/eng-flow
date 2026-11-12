@@ -311,3 +311,30 @@ test('the reviewer brief tells each reviewer to read its skill references', () =
   const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
   assert.match(harness, /skill file to follow[^\n]*`references\/` files that skill links/);
 });
+
+// run-epic adds each ticket worktree at the epic branch's head, so a config left uncommitted reaches no ticket session.
+test('setup-project ends by asking how the config reaches the default branch, and run-epic stops without it', () => {
+  const setup = skill('setup-project');
+  assert.match(setup, /end by asking the owner how `docs\/agents\/project\.md` reaches the default branch/i);
+  assert.doesNotMatch(setup, /Commit nothing/);
+  const runEpic = skill('run-epic');
+  assert.match(
+    runEpic,
+    /epic branch[^\n]*lacks `docs\/agents\/project\.md`[^\n]*`BLOCKED`[^\n]*naming the missing file/i,
+  );
+});
+
+test('setup-project asks which package checks belong in Checks when CI runs fewer, recommending the CI set', () => {
+  const setup = skill('setup-project');
+  assert.match(
+    setup,
+    /package or build files[^\n]*more checks than CI[^\n]*ask the owner which belong in `Checks`[^\n]*recommending the set CI runs/i,
+  );
+});
+
+test('for a project with no app, setup-project writes a Run line that says how a change is checked', () => {
+  const setup = skill('setup-project');
+  assert.match(setup, /no app[^\n]*`Run: no app`[^\n]*how a change is checked/i);
+  const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
+  assert.match(config, /`Run: no app`[^\n]*how a change is checked/);
+});
