@@ -6,8 +6,7 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 
 [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack), MIT.
 
-- `unslop` is copied from it.
-- The [principles](principles/) follow its principle skills: prove it works on the real artifact, fix root causes, test behaviour and not implementation.
+- Its principle skills shaped `implement` and `verify-as-user`: prove it works on the real artifact, fix root causes, test behaviour and not implementation.
 - `verify-as-user` takes its idea that each project owns how its app is started and driven, from `create-verification-skill`.
 - Starting with one unit of work and widening only once it went well.
 
@@ -18,7 +17,6 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 - `grill` and `wayfinder` are copied from it, and the ADR and glossary formats in `grill/references/` come from its `domain-modeling` skill.
 - `spec` and `slice` follow its spec and ticket skills: vertical slices with blockers, behaviour named instead of file paths.
 - `implement` and `diagnose` follow its test-first and diagnosing skills.
-- Its `implement-spec` is the base of the coming `orchestrate`.
 
 ## Addy Osmani's agent-skills
 
@@ -37,9 +35,8 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 
 [t3dotgg/tstack](https://github.com/t3dotgg/tstack), MIT.
 
-- `file-pr` and `leaving-pr-comments` are copied from it.
+- `file-pr` is copied from it, and its `leaving-pr-comments` gave the comment format `file-pr` keeps.
 - `verify-as-user` follows its proof standard from `full-send`: proof is what the agent observed in the session, and green mocked tests do not prove a UI works.
-- Its `full-stop` is the base of the coming `ship-ticket`.
 
 ## Software factory v2, by ZazenCodes
 
@@ -54,5 +51,4 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 [The Claude Code team's post](https://claude.dev/blog/solving-code-review-at-anthropic/), by Addy Osmani, Morgan Westlee Lunt and Qing Wang.
 
 - `code-review`: a reviewer that did not write the change, later rounds that read only the new diff and never repeat a finding, findings with file and line, and a plain verdict.
-- At most three review rounds before stepping back to question the approach.
 - A finding that repeats becomes a lint rule or a skill change, not another review comment.

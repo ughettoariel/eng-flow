@@ -3,17 +3,6 @@
   "review_date": "2026-11-01",
   "repositories": [
     {
-      "name": "pstack",
-      "repo": "cursor/plugins",
-      "directory": "cursor-plugins",
-      "url": "https://github.com/cursor/plugins.git",
-      "commit": "ae5650febf4320793844c12c4adaa937f417f8da",
-      "sparse_scope": "pstack",
-      "license": "MIT",
-      "license_path": "pstack/LICENSE",
-      "copyright": "Lauren Tan"
-    },
-    {
       "name": "Matt Pocock",
       "repo": "mattpocock/skills",
       "directory": "mattpocock-skills",

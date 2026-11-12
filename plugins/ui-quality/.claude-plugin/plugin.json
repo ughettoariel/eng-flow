@@ -1,0 +1,10 @@
+{
+  "name": "ui-quality",
+  "version": "0.1.0",
+  "description": "Build, audit or loop on a UI for web, phone and tablet against scored UI/UX rules. Its scripts need Node 24, and the web scan needs Playwright.",
+  "author": {
+    "name": "ughettoariel"
+  },
+  "repository": "https://github.com/ughettoariel/eng-flow",
+  "license": "MIT"
+}

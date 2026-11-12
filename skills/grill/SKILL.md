@@ -22,7 +22,7 @@ Each decision opens the decisions that depend on it. The frontier is every open 
 - Each option has a description of what choosing it means and what it costs. The recommended option goes first, marked "(Recommended)" in the person's language. Offer only realistic options, usually two or three.
 - Use a multi-select question when the options are not exclusive, such as "what does the business use today?".
 
-Ask each batch in the thread, through the harness's multiple-choice question tool, or as numbered questions with lettered options when it has none. Questions never go to GitHub as comments or in descriptions. A question that gets no answer while the work goes on is parked, one file per question, in `.eng-flow/questions/` of the main checkout, as `references/pending-questions.md` describes. The next session that starts in the project lists the parked questions and offers to grill them.
+Ask each batch in the thread, through the harness's multiple-choice question tool, or as numbered questions with lettered options when it has none. Questions never go to GitHub as comments or in descriptions. A question that gets no answer while the work goes on is parked, one file per question, in `.eng-flow/questions/` of the current checkout, as `references/pending-questions.md` describes. A session that resumes a ticket reads that ticket's parked questions when the owner asks for them.
 
 ## Answers
 

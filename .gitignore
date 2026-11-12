@@ -2,6 +2,6 @@ node_modules/
 .DS_Store
 # Clones of the upstream repositories; scripts/fetch-sources.mjs restores them.
 sources/
-# Pending questions for the owner, read by hooks/pending-questions.mjs from the main checkout.
+# Pending questions for the owner; skills park them here when no answer comes.
 .eng-flow/
 .claude/worktrees/

@@ -1,11 +1,11 @@
 ---
 name: slice
-description: Slice an epic's spec into tickets filed as sub-issues of the epic, each a thin path of user value with at most three acceptance criteria, the spec context it needs copied in, and only real blockers. Use when asked to slice or split a spec, epic or feature into tickets.
+description: Slice an epic's spec into tickets filed as children of the epic, each a thin path of user value with at most three acceptance criteria, the spec context it needs copied in, and only real blockers. Use when asked to slice or split a spec, epic or feature into tickets.
 ---
 
 # Slice
 
-Where tickets live follows the `Tickets` line of `docs/agents/project.md`, as [project-config](../setup-project/references/project-config.md) describes; the layout below is the GitHub one.
+Where tickets live follows the `Tickets` line of `docs/agents/project.md`; [tracker.md](../setup-project/references/tracker.md) has the command for each operation named below.
 
 A ticket reads without opening its epic. The tests `implement` writes carry the detail, so a ticket carries only what is needed to write them.
 
@@ -19,14 +19,14 @@ A ticket reads without opening its epic. The tests `implement` writes carry the 
 
 ## Each ticket
 
-File it as a sub-issue of the epic, labelled `type:story` or `type:task`, with:
+Create it as a child of the epic, labelled `type:story` or `type:task`, with:
 
 - **Context:** the parts of the epic's spec this ticket touches, copied in, so the reader needs nothing else.
 - **Covers:** the epic's criteria it covers, copied word for word with their numbers (`Covers criterion 2 of #<epic>: ...`).
 - **Acceptance criteria:** its own, at most three, each observable.
 - **Contracts and test seams:** the ones from the spec it uses, copied in.
 
-No user story template and no Given/When/Then: the tests hold that detail. Name behaviour, not file paths or code. Label `security` each ticket that crosses a trust boundary: it adds authentication, sensitive data, an external integration, uploads or roles. Record blockers as GitHub's blocked-by relation, in a second pass once every ticket has a number. The project's issue template wins over this layout.
+No user story template and no Given/When/Then: the tests hold that detail. Name behaviour, not file paths or code. Label `security` each ticket that crosses a trust boundary: it adds authentication, sensitive data, an external integration, uploads or roles. Mark blockers in a second pass, once every ticket has its id. The project's issue template wins over this layout.
 
 A ticket is Ready when it has its context and its acceptance criteria. One without them is not taken.
 
@@ -42,4 +42,4 @@ Edit each affected ticket, or close it as not planned and file its replacement. 
 
 ## Done
 
-Every slice is a typed sub-issue of the epic with its context, the criteria it covers, at most three criteria of its own and only real blockers; no epic criterion is left uncovered; the epic has at most eight tickets. Show the owner the spec and the tickets, with the `security` ones named, before any is built: that is their one approval.
+Every slice is a typed child of the epic with its context, the criteria it covers, at most three criteria of its own and only real blockers; no epic criterion is left uncovered; the epic has at most eight tickets. Show the owner the spec and the tickets, with the `security` ones named, before any is built: that is their one approval.
