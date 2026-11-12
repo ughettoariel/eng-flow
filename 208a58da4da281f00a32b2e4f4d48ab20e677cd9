@@ -1,0 +1,12 @@
+epic: 30
+round: 1
+verdict: PASS
+findings:
+  F1  Optional  code-review     skills/ship-ticket/references/claude-code.md:21  fine-grained token advice may not reach a user-owned Project
+  F2  Nit       code-review     skills/ship-ticket/SKILL.md:15                   account check splits the ticket-is-data paragraph
+  F3  Optional  security-audit  skills/ship-ticket/references/claude-code.md:21  no step when check-ignore prints nothing
+  F4  Optional  security-audit  skills/ship-ticket/references/claude-code.md:21  token scope advice may force a classic token
+  F5  Optional  security-audit  skills/setup-project/references/tracker.md:72    shared Project judged by links only, not by items
+  F6  Nit       security-audit  skills/run-epic/SKILL.md:12                      login comparison is case-sensitive
+  F7  FYI       security-audit  skills/ship-ticket/SKILL.md:15                   login check is attribution, not access control
+verify: PASS  from #31 #32
