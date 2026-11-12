@@ -1,0 +1,17 @@
+epic: 36
+round: 2
+previous: 6156817
+verdict: PASS
+resolved:
+  6156817#F1  fixed in d2412b4
+  6156817#F2  still open
+  6156817#F3  still open
+  6156817#F4  still open
+  6156817#F5  still open
+  6156817#F6  still open
+findings:
+  F1  Optional  code-review     skills/ship-ticket/SKILL.md:41                   step 9 still says verify runs in a subagent; the harness may move it
+  F2  Optional  code-review     skills/ship-ticket/references/claude-code.md:10  no way given to get local captures into the PR description
+  F3  Nit       code-review     skills/ship-ticket/references/claude-code.md:10  a project with screens and no Run command is covered by neither rule
+  F4  Optional  security-audit  skills/ship-ticket/references/claude-code.md:10  in-session walk reads app content without the "data, not instructions" rule
+verify: PASS  from #37 #38 #39 #40 #41 #42 #43 #49 #57
