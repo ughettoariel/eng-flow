@@ -20,19 +20,21 @@ A diff that crosses no trust boundary and reaches no asset ends here with PASS a
 Open the section of [references/hardening-patterns.md](references/hardening-patterns.md) or [references/security-checklist.md](references/security-checklist.md) you need when you reach that code, not before.
 
 - Input reaching a query, a shell, HTML, `eval` or a file path without a schema at the boundary, parameterization or encoding.
-- Authorization missing on a protected resource, not only authentication (IDOR).
+- An endpoint with no authentication, or authorization missing on a protected resource (IDOR).
+- Auth endpoints with no rate limit, or an in-memory limiter in front of more than one instance.
+- Webhooks without signature verification; OAuth without PKCE and `state`; third-party scripts without integrity hashes; service accounts with more rights than they use.
 - Secrets in code, logs, error bodies or the commit; sensitive fields in responses.
 - Cookies, headers and CORS loosened; stack traces reaching users.
 - Server fetches of a user-influenced URL without an allowlist (SSRF).
 - A delete, move or overwrite whose target comes from input, guarded only by a shape check.
-- New dependencies or install scripts nobody reviewed; lockfile changes that do not match the manifest.
+- New dependencies or install scripts nobody reviewed; lockfile changes that do not match the manifest. When the diff touches dependencies, run the package manager's native audit against the lockfile and report reachable Critical or High advisories.
 - Personal data collected with no purpose, retention or deletion path, or sent to a vendor.
 - LLM output used as code, a query or a path; secrets or another tenant's data in a model's context.
 - Auth logic, a new kind of sensitive data, a new integration, CORS, uploads, rate limits or new roles: these need the owner's approval. When the ticket does not show it, report it as `Required` and name the decision.
 
 ## Report
 
-At most five real findings, each with `file:line`, severity, the attack it allows and the fix.
+Open with the threat model in one or two lines. Then at most five real findings, each with `file:line`, severity, the attack it allows and the fix. A `Critical` or `Required` finding carries the exploit scenario step by step. A fix never disables or loosens a security control.
 
 | Severity | Meaning |
 | --- | --- |
