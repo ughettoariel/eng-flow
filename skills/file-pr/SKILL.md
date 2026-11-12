@@ -42,7 +42,7 @@ Write the title and description in plain words, with the project's own writing r
 has them, then check them, and any quotes and attachments, for secrets and private details.
 
 When the change touches a UI directly, the description carries a capture of
-what changed, or links the flow on the project's UI board when
+what changed, or links the flow on the project's Design board when
 `docs/agents/project.md` names one; an animation goes in as a short video.
 
 The repository's PR template and the PR rules in its `docs/agents/project.md`

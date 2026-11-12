@@ -30,7 +30,7 @@ With no environment to run it (missing credentials, a service that is down, no `
 Only for a change that touches a UI directly.
 
 - Capture the screens the ticket changed, with their states, for the PR description. An animation that matters is a short video.
-- When `docs/agents/project.md` names a `UI board`, also update those screens on the board and link the flow from the PR. When the change reaches screens outside the ticket, file a task to update them on the board instead of growing this PR.
+- When `docs/agents/project.md` names a `Design board`, also update those screens on the Design board and link the flow from the PR. When the change reaches screens outside the ticket, file a `chore` ticket to update them on the Design board instead of growing this PR.
 
 ## Done
 

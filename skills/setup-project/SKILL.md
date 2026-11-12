@@ -1,6 +1,6 @@
 ---
 name: setup-project
-description: Set a project up for eng-flow by writing docs/agents/project.md with its checks, how to run it, where tickets live and its UI board, asking the owner only what the repo cannot answer. Use when a project starts using eng-flow, or when a skill reports that the project config is missing.
+description: Set a project up for eng-flow by writing docs/agents/project.md with its checks, how to run it, where tickets live and its Design board, asking the owner only what the repo cannot answer. Use when a project starts using eng-flow, or when a skill reports that the project config is missing.
 ---
 
 # Setup project
@@ -26,12 +26,12 @@ Ask one batch the way `grill` does, with context and a recommended option per qu
 - **Keep the tracker the project already uses**, naming the one you found. eng-flow files nothing on GitHub.
 - **No tracker.** Specs and tickets stay in the session.
 
-Ask for `Checks`, `Setup` or `Run` only when the repo left them unclear, and for the UI board only when the project has screens.
+Ask for `Checks`, `Setup` or `Run` only when the repo left them unclear, and for the Design board only when the project has screens.
 
 ## Write it
 
 1. Write `docs/agents/project.md` with only the lines that differ from their default, and show it to the owner.
-2. With `Tickets: github`, check that `gh auth status` passes and that `gh api repos/{owner}/{repo} --jq .permissions.push` prints `true`; otherwise say what is missing. Then create the labels once the owner said yes: `gh label create <name> --force` for `type:epic`, `type:story`, `type:task`, `type:bug`, `type:spike`, `security`, `ready-for-agent` and `ready-for-human`.
+2. With `Tickets: github`, check that `gh auth status` passes and that `gh api repos/{owner}/{repo} --jq .permissions.push` prints `true`; otherwise say what is missing. Then create the labels once the owner said yes: `gh label create <name>` for each of these that the repository lacks, leaving existing ones as they are. Type, one per ticket, which also names its branch: `enhancement`, `bug`, `documentation` (GitHub creates these three in every new repository), `chore`, `refactor`. Flow: `epic`, `spike`, `security`, `ready-for-agent`, `ready-for-human`.
 3. Commit nothing; the owner decides whether the file goes in a PR.
 
 ## Done
