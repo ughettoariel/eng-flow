@@ -85,7 +85,13 @@ gh api graphql -f field=<status node id> -f query='mutation($field: ID!) { updat
   {id: "<Done id>", name: "Done", color: GREEN, description: ""}]}) { projectV2Field { ... on ProjectV2SingleSelectField { options { name } } } } }'
 ```
 
-When the mutation is refused, show the owner the five options to set by hand in the project's settings, and check them afterwards with the `fields` call above.
+Check that the built-in workflow `Item closed` is on, since it moves a closed ticket to `Done`:
+
+```bash
+gh api graphql -f query='query { user(login: "<login>") { projectV2(number: <n>) { workflows(first: 20) { nodes { name enabled } } } } }'
+```
+
+For an organisation's project, start the query from `organization(login: "<org>")`. When the mutation is refused, show the owner the five options to set by hand in the project's settings, and check them afterwards with the `fields` call above.
 
 ## Another tracker
 
