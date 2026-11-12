@@ -245,12 +245,34 @@ test('the Claude Code reference sets the agent account in .claude/settings.local
   }
 });
 
+// GitHub's fine-grained tokens reach neither a user-owned Project nor a repository where the account is a collaborator.
+test('the Claude Code reference names the classic token for a user-owned Project and a collaborator on this repository only', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /user-owned Project[^\n]*classic token[^\n]*`repo`[^\n]*`project`/);
+  assert.match(harness, /collaborator on this repository only/);
+});
+
+test('the Claude Code reference writes no token until .gitignore covers .claude/settings.local.json', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /`git check-ignore \.claude\/settings\.local\.json` prints nothing[^\n]*add[^\n]*`\.gitignore`[^\n]*write no token until/,
+  );
+});
+
 // With no agent account the owner's own login runs the flow, so the check must not fire on `none`.
 test('with Agent account set, ship-ticket and run-epic stop with BLOCKED on another login', () => {
   for (const name of ['ship-ticket', 'run-epic']) {
     const text = skill(name);
     assert.match(text, /`Agent account`[^\n]*`gh api user --jq \.login`[^\n]*`BLOCKED`/, name);
     assert.match(text, /`Agent account`[^\n]*(missing|`none`)[^\n]*no check/i, name);
+  }
+});
+
+// GitHub logins are case-insensitive, so `Agent account: Eng-Bot` must match `eng-bot`.
+test('ship-ticket and run-epic compare the agent login case-insensitively', () => {
+  for (const name of ['ship-ticket', 'run-epic']) {
+    assert.match(skill(name), /`gh api user --jq \.login`[^\n]*ignoring case/, name);
   }
 });
 

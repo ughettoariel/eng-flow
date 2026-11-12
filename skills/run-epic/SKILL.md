@@ -9,7 +9,7 @@ You run the epic, never its code: each ticket is written, reviewed and merged by
 
 It needs `Tickets: github` and a `Board` line in `docs/agents/project.md`; without them, say what is missing and suggest `setup-project`. The commands for tickets and the board are in [tracker.md](../setup-project/references/tracker.md).
 
-When it has an `Agent account` login, check at the start of each pass that `gh api user --jq .login` prints that login; otherwise stop with `BLOCKED`, naming both logins, before syncing, assigning or launching anything. A missing line or `Agent account: none` means no check.
+When it has an `Agent account` login, check at the start of each pass that `gh api user --jq .login` prints that login, ignoring case as GitHub does; otherwise stop with `BLOCKED`, naming both logins, before syncing, assigning or launching anything. A missing line or `Agent account: none` means no check.
 
 ## Each pass
 
