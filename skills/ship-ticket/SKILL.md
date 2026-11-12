@@ -42,9 +42,9 @@ A round reviews the PR's head commit and ends in one verdict note on it, as [ver
 ## Merge
 
 13. Before merging, check the head still has its PASS note. After a rebase onto a moved base, [verdict-notes.md](../code-review/references/verdict-notes.md) says when the note carries over to the new head; otherwise the head needs a new round.
-14. **Into an epic branch**, merge it yourself with `gh pr merge <pr> --merge`, then read the PR back with `gh pr view <pr> --json state,mergedAt,baseRefName`: a merge command can report success for a PR that only queued. Only when `state` is `MERGED` into the epic branch, close the ticket (a PR into a branch other than the default one does not close it) and move it to `Done` when there is a `Board` line. A PR still open or queued is not merged: wait for it, or say `BLOCKED` with what holds it.
-15. **Into `main`**, stop with the PR ready: the owner merges it. `ship-ticket` never merges into `main`.
+14. **Into an epic branch**, first read `gh pr view <pr> --json baseRefName,headRefOid`: the base must be the epic branch the handoff names and the head the SHA the PASS note sits on. Anything else, a retargeted PR or a push after the note, stops the merge. Then merge only that head with `gh pr merge <pr> --merge --match-head-commit <noted sha>`, and read the PR back with `gh pr view <pr> --json state,mergedAt,baseRefName`: a merge command can report success for a PR that only queued. Only when `state` is `MERGED` into the epic branch, close the ticket (a PR into a branch other than the default one does not close it) and move it to `Done` when there is a `Board` line. A PR still open or queued is not merged: wait for it, or say `BLOCKED` with what holds it.
+15. **Into the repository's default branch** (`gh repo view --json defaultBranchRef --jq .defaultBranchRef.name`, usually `main`), stop with the PR ready: the owner merges it. `ship-ticket` never merges into the repository's default branch.
 
 ## Done
 
-The ticket's PR has a PASS note on its head and is merged into its epic branch or ready for the owner to merge into `main`; or the session stopped with `BLOCKED`, its cause, and the ticket in `Parked`.
+The ticket's PR has a PASS note on its head and is merged into its epic branch or ready for the owner to merge into the default branch; or the session stopped with `BLOCKED`, its cause, and the ticket in `Parked`.
