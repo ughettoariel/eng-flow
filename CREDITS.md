@@ -23,6 +23,7 @@ eng-flow is built from other people's work. Skills copied from a repository keep
 [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills), MIT.
 
 - One approval before a run: the owner approves the spec and tickets once, then the epic runs.
+- `security-audit`: copied from `security-and-hardening`, its references and the `security-auditor` agent, turned into an audit of a diff.
 
 ## Superpowers, by Jesse Vincent
 
