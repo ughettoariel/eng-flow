@@ -20,7 +20,7 @@ verify: PASS  criteria 1-3 walked at d4e5f6a
 ```
 
 - `previous` is the SHA of the round before; the first round has none. Following `previous` from the head gives the ticket's whole review history.
-- Findings get ids `F1`, `F2` within their note and are cited elsewhere as `<sha>#F1`. Each line has the id, the severity (`Critical`, `Required`, `Optional`, `Nit`, `FYI`), the reviewer, `file:line` and the problem.
+- Findings get ids `F1`, `F2` within their note and are cited elsewhere as `<sha>#F1`. Each line has the id, the severity (`Critical`, `Required`, `Optional`, `Nit`, `FYI`), the reviewer, `file:line` and a short title. Notes are pushed to the remote, which anyone can read on a public repository: the exploit steps stay in the session's report, and a note never quotes a secret, even one the finding is about.
 - `resolved` closes every finding of the previous note as `fixed in <sha>`, `dismissed: <reason with a citation>` or `still open`. Nothing is left out. Only the next round's reviewer dismisses a finding, never the session that wrote the code, and dismissing a `Critical` or `Required` finding of `security-audit` needs the owner: ask them in the thread and cite their answer.
 - `verdict` is `PASS` only when no `Critical` or `Required` finding is open, nothing is `still open`, and `verify` passed. Otherwise it is `FAIL`.
 

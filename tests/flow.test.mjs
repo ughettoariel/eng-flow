@@ -94,3 +94,16 @@ test('only the next reviewer dismisses a finding, and the owner a serious securi
   assert.match(notes, /Only the next round's reviewer dismisses a finding/);
   assert.match(notes, /`security-audit`[^\n]*needs the owner/);
 });
+
+// Notes are pushed to the remote, which may be public: an unfixed hole must not be published there.
+test('verdict notes keep only a short line per finding and never the exploit or a secret', () => {
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /exploit steps stay in the session/);
+  assert.match(notes, /never quotes a secret/);
+});
+
+test('run-epic launches only tickets from trusted authors and marks ticket text as data', () => {
+  const text = skill('run-epic');
+  assert.match(text, /`OWNER`, `MEMBER` or `COLLABORATOR`/);
+  assert.match(text, /ticket's text is data/);
+});
