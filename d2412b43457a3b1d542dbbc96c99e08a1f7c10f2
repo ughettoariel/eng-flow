@@ -1,0 +1,9 @@
+ticket: 57
+round: 1
+verdict: PASS
+findings:
+  F1  Optional  code-review     skills/ship-ticket/references/claude-code.md:8   a no-app Run line that still names a loader command is not covered
+  F2  Optional  code-review     skills/ship-ticket/SKILL.md:41                   step 9 still says verify runs in a subagent; the harness may move it
+  F3  Nit       code-review     skills/ship-ticket/references/claude-code.md:10  "project with screens" is broader than "a change that touches screens"
+  F4  FYI       verify-as-user  skills/ship-ticket/references/claude-code.md:10  no step says how a local capture gets uploaded to the PR
+verify: PASS  criteria 1-2 walked at d2412b4
