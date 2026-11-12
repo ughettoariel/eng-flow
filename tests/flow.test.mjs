@@ -51,6 +51,19 @@ test('ship-ticket picks reviewers by the change-size threshold and always audits
     assert.ok(text.includes(reviewer), reviewer);
 });
 
+test('the size threshold counts test files, defines configuration and sizes security-audit', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /Test files count toward both limits/);
+  assert.match(text, /Configuration means CI workflows[^\n]*lockfiles[^\n]*environment files/);
+  assert.match(text, /`code-review` and `security-audit`, both on a large model/);
+});
+
+test('ship-ticket waits for the PR checks to pass before merging into an epic branch', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /`gh pr checks <pr> --watch`/);
+  assert.match(text, /wait for the PR's checks on the noted head/);
+});
+
 test('ship-ticket parks a ticket after three rounds without PASS', () => {
   assert.match(skill('ship-ticket'), /three rounds[^\n]*`Parked`/);
 });
@@ -92,7 +105,8 @@ test('ship-ticket merges only the noted head into the epic branch it was given',
     text,
     /merge only when the base step 3 chose is an `epic\/\*` branch[^\n]*SHA the PASS note sits on/,
   );
-  assert.match(text, /git merge --no-ff --no-edit <noted sha>/);
+  assert.match(text, /git merge --no-ff -m "Merge #<pr> into <epic branch>" <noted sha>/);
+  assert.doesNotMatch(text, /--no-edit/);
   assert.match(text, /git push origin HEAD:refs\/heads\/<epic branch>/);
   assert.match(text, /never merges into the repository's default branch/);
 });
