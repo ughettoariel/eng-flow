@@ -11,7 +11,7 @@ Runs in the main thread, so the test seams can be checked with the owner. Where 
 2. Read the code the feature touches. Use the project's glossary and respect its ADRs.
 3. List the assumptions you are making before writing. Anything the owner did not settle is an assumption, not a fact; open decisions go through `grill` first.
 4. Pick the test seams: the highest public interface that reaches the behaviour, existing seams before new ones, as few as possible. Confirm them with the owner.
-5. Write the spec into the epic's body, so the feature keeps one issue. When there is no epic yet, create one labelled `type:epic`. Keep the sections already there, such as Decisions so far, and add:
+5. Write the spec into the epic's body, so the feature keeps one issue. When there is no epic yet, create one labelled `epic`. Keep the sections already there, such as Decisions so far, and add:
    - the outcome in one sentence;
    - the problem and the solution from the user's side;
    - numbered acceptance criteria, each observable and with how it is verified;

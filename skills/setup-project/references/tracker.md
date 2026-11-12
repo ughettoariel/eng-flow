@@ -17,8 +17,8 @@ Use REST through `gh api`; `gh` fills `{owner}` and `{repo}` from the current ch
 Sub-issues and blockers take the issue's `id`, not its number. Every create below prints both; keep them.
 
 ```bash
-# Create the epic, or a child (labels: type:story, type:task, type:bug, type:spike)
-gh api repos/{owner}/{repo}/issues -f title='...' -F body=@body.md -f 'labels[]=type:epic' --jq '{number, id}'
+# Create the epic, or a child with its type label (enhancement, bug, documentation, chore, refactor, spike)
+gh api repos/{owner}/{repo}/issues -f title='...' -F body=@body.md -f 'labels[]=epic' --jq '{number, id}'
 
 # Attach a child to its epic
 gh api repos/{owner}/{repo}/issues/<epic number>/sub_issues -F sub_issue_id=<child id>

@@ -63,3 +63,40 @@ test('relative links in Markdown files point to files that exist', () => {
   }
   assert.deepEqual(broken, []);
 });
+
+const ticketLabels = [
+  'enhancement',
+  'bug',
+  'documentation',
+  'chore',
+  'refactor',
+  'epic',
+  'spike',
+  'security',
+  'ready-for-agent',
+  'ready-for-human',
+];
+const shippedMarkdown = () => shippedFiles().filter((name) => name.endsWith('.md'));
+const linesMatching = (pattern) =>
+  shippedMarkdown().flatMap((file) =>
+    readFileSync(path.join(repo, file), 'utf8')
+      .split('\n')
+      .flatMap((line, index) => (pattern.test(line) ? [`${file}:${index + 1}`] : [])),
+  );
+
+test('setup-project creates every ticket label the skills use', () => {
+  const setup = readFileSync(skillFile('setup-project'), 'utf8');
+  assert.deepEqual(
+    ticketLabels.filter((label) => !setup.includes(`\`${label}\``)),
+    [],
+  );
+});
+
+test('no shipped file names a type: label, which setup-project no longer creates', () => {
+  assert.deepEqual(linesMatching(/type:(epic|story|task|bug|spike)\b/), []);
+});
+
+// "Board" alone means the GitHub Project of ticket states; the screens live on the Design board.
+test('no shipped file says UI board', () => {
+  assert.deepEqual(linesMatching(/UI board/i), []);
+});

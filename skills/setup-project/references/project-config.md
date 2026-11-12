@@ -9,7 +9,7 @@ Checks: npm test && npm run lint
 Setup: npm ci && cp ../.env .env
 Tickets: github
 Run: npm run dev, then open http://localhost:3000
-UI board: none
+Design board: none
 Verify status: off
 Glossary: CONTEXT.md
 ADRs: docs/adr
@@ -25,7 +25,7 @@ Anything the PR template does not already say.
 | `Setup` | `implement`, `verify-as-user` | None: a fresh checkout or worktree is ready as it is |
 | `Tickets` | `wayfinder`, `spec`, `slice`, `grill` | None: those skills ask the owner once and suggest `setup-project` |
 | `Run` | `verify-as-user` | Found from the README; a project verification skill named here wins |
-| `UI board` | `verify-as-user`, `file-pr` | `none`: captures go in the PR description |
+| `Design board` | `verify-as-user`, `file-pr` | `none`: captures go in the PR description |
 | `Verify status` | `verify-as-user` | `off`: the verdict goes in the session and the PR description |
 | `Glossary` | `grill`, `spec` | `CONTEXT.md` |
 | `ADRs` | `grill` | `docs/adr` |
@@ -36,7 +36,7 @@ Anything the PR template does not already say.
 
 ## Tickets
 
-- `github`: the eng-flow ticket flow on GitHub Issues. An epic is an issue labelled `type:epic`, its tickets and spikes are sub-issues labelled `type:story`, `type:task`, `type:bug` or `type:spike`, blockers use GitHub's blocked-by relation, and spikes carry `ready-for-agent` or `ready-for-human`.
+- `github`: the eng-flow ticket flow on GitHub Issues. An epic is an issue labelled `epic`, its tickets are sub-issues with one type label (`enhancement`, `bug`, `documentation`, `chore`, `refactor`) and its spikes are sub-issues labelled `spike`, blockers use GitHub's blocked-by relation, and spikes carry `ready-for-agent` or `ready-for-human`.
 - A tracker name, with its project key or URL when it has one, such as `jira ABC` or `linear https://linear.app/acme/team/ENG`: the project already tracks work there.
 - `none`: no tracker.
 

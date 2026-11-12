@@ -10,8 +10,8 @@ description: Turn work too large or too unclear to plan in one session into a Gi
 ## Open the epic
 
 1. Name the goal with the owner first: the spec, decision or change this effort reaches. It fixes the scope.
-2. Create the epic, labelled `type:epic`, with these sections: Goal, Notes, Decisions so far (one line per closed spike, linked), Not yet specified (questions you can see coming but cannot state sharply yet) and Out of scope. `spec` later writes the acceptance criteria into the same body.
-3. File each question you can state sharply now as a spike: a child of the epic labelled `type:spike`, whose body opens with `## Question`, with the label of who works it (below). Mark blockers in a second pass, once every issue has its id.
+2. Create the epic, labelled `epic`, with these sections: Goal, Notes, Decisions so far (one line per closed spike, linked), Not yet specified (questions you can see coming but cannot state sharply yet) and Out of scope. `spec` later writes the acceptance criteria into the same body.
+3. File each question you can state sharply now as a spike: a child of the epic labelled `spike`, whose body opens with `## Question`, with the label of who works it (below). Mark blockers in a second pass, once every issue has its id.
 
 Keep the epic small: a question that one conversation settles is a batch of `grill`, not a spike.
 
@@ -20,7 +20,7 @@ Keep the epic small: a question that one conversation settles is a batch of `gri
 - **`ready-for-agent`: research.** A subagent answers from primary sources (official docs, source code, specs) and cites each claim. Notes stay on a throwaway `research/<name>` branch that is never merged.
 - **`ready-for-human`: the owner decides.** Run `grill` with the owner, or build a prototype: throwaway code that answers one question, marked as a prototype, with one command to run, no persistence or polish, on a branch that is never merged. For UI, several clearly different variants on one route. The owner's reaction is the answer.
 
-Work that has to happen before a decision can be made is a `type:task` child of the epic.
+Work that has to happen before a decision can be made is a `chore` child of the epic.
 
 ## Working it
 

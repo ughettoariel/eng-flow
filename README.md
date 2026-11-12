@@ -62,7 +62,7 @@ claude plugin install ui-quality@ughettoariel
 
 Update with `claude plugin marketplace update ughettoariel`; Claude Code installs a new version when the `version` in a plugin's `.claude-plugin/plugin.json` goes up.
 
-In each project, run `setup-project` once. It writes `docs/agents/project.md` with the project's checks, how to set up a fresh worktree and run the app, where its tickets live and its UI board, if it has one.
+In each project, run `setup-project` once. It writes `docs/agents/project.md` with the project's checks, how to set up a fresh worktree and run the app, where its tickets live and its Design board, if it has one.
 
 ## Developing eng-flow
 
