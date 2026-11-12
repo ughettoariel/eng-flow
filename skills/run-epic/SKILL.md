@@ -27,7 +27,7 @@ It needs `Tickets: github` and a `Board` line in `docs/agents/project.md`; witho
 6. When every ticket is `Done`, merge `main` into the epic branch once more, then review the epic branch against `main` the way `ship-ticket` reviews a ticket: the same threshold over the whole diff, each reviewer in a subagent, and the verdict as a note on the epic branch's head. A finding the epic review raises becomes a proposed ticket of the epic, so every change still has one owner. Show the owner the proposed tickets, with the `security` ones named, the way `slice` asks for its one approval, and launch only those approved; the epic still holds at most eight tickets. After three epic review rounds without PASS, stop with `BLOCKED` and the last note.
 7. With a PASS note on the epic branch's head, open or update the epic's PR into `main` and turn it ready. Its description carries one line per ticket, its number, title and the SHA of its PASS note, and the epic review's verdict. The owner merges it.
 
-Ask the owner only what is theirs: whether to resume a `Parked` ticket, a conflict when syncing `main`, a ticket still stuck after two retries. Everything else you settle and report.
+Ask the owner only what is theirs: whether to resume a `Parked` ticket, a conflict when syncing `main`, a ticket still stuck after two retries, approving the tickets an epic review proposes, and an epic review stopped after three rounds. Everything else you settle and report.
 
 ## Done
 
