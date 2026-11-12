@@ -1,0 +1,15 @@
+ticket: 37
+round: 2
+previous: 62c9820
+verdict: PASS
+resolved:
+  62c9820#F1  fixed in 4226ecf
+  62c9820#F2  fixed in 4226ecf
+  62c9820#F3  fixed in 4226ecf
+  62c9820#F4  fixed in 4226ecf
+  62c9820#F5  fixed in 4226ecf
+  62c9820#F6  dismissed: the base reviewer had every tool (claude-code.md:5 at origin/epic/36); the headless call narrows it
+  62c9820#F7  fixed in 4226ecf
+findings:
+  F1  Optional  security-audit  skills/ship-ticket/references/claude-code.md:11  Checks commands run the PR's code inside the reviewer
+verify: PASS  criteria 1-3 walked at 4226ecf
