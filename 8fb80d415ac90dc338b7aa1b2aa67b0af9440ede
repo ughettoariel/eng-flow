@@ -1,0 +1,10 @@
+ticket: 43
+round: 1
+verdict: PASS
+findings:
+  F1  Optional  security-audit  .github/workflows/ci.yml:21    npm ci runs dependency lifecycle scripts; --ignore-scripts would block them
+  F2  FYI       security-audit  .github/workflows/ci.yml:15    actions pinned to tags, not SHAs (predates this change)
+  F3  FYI       code-review     README.md:75                   secrets scan is in neither Checks nor CI
+  F4  Nit       code-review     tests/checks.test.mjs:15       comment repeats the test name
+  F5  Nit       code-review     tests/checks.test.mjs:18       parity test reads one command per run line and drops only npm ci
+verify: PASS  criteria 1-2 walked at 8fb80d4
