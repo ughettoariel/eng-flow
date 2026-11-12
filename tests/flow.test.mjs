@@ -73,7 +73,7 @@ test('run-epic lists Parked first, keeps at most two In progress and never launc
 
 test('run-epic syncs main into the epic branch and writes a handoff before each launch', () => {
   const text = skill('run-epic');
-  assert.match(text, /merge `main` into the epic branch/);
+  assert.match(text, /Sync: merge `main` into the epic branch/);
   assert.ok(text.includes('.eng-flow/handoff.md'));
 });
 
