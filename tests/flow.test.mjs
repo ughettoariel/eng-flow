@@ -42,9 +42,26 @@ test('ship-ticket runs implement and file-pr and leaves a draft PR into the tick
 
 test('ship-ticket picks reviewers by the change-size threshold and always audits security tickets', () => {
   const text = skill('ship-ticket');
-  assert.match(text, /at most two files[^\n]*under 50 changed lines[^\n]*authentication, payments, data access, configuration[^\n]*`Sensitive paths`/);
+  assert.match(
+    text,
+    /at most two files[^\n]*under 50 changed lines[^\n]*authentication, payments, data access, configuration[^\n]*`Sensitive paths`/,
+  );
   assert.match(text, /`security`[^\n]*`security-audit`/);
-  for (const reviewer of ['`code-review`', '`security-audit`', '`verify-as-user`']) assert.ok(text.includes(reviewer), reviewer);
+  for (const reviewer of ['`code-review`', '`security-audit`', '`verify-as-user`'])
+    assert.ok(text.includes(reviewer), reviewer);
+});
+
+test('the size threshold counts test files, defines configuration and sizes security-audit', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /Test files count toward both limits/);
+  assert.match(text, /Configuration means CI workflows[^\n]*lockfiles[^\n]*environment files/);
+  assert.match(text, /`code-review` and `security-audit`, both on a large model/);
+});
+
+test('ship-ticket waits for the PR checks to pass before merging into an epic branch', () => {
+  const text = skill('ship-ticket');
+  assert.match(text, /`gh pr checks <pr> --watch`/);
+  assert.match(text, /wait for the PR's checks on the noted head/);
 });
 
 test('ship-ticket parks a ticket after three rounds without PASS', () => {
@@ -84,8 +101,12 @@ test('run-epic reviews the whole epic against main and leaves its PR ready with 
 
 test('ship-ticket merges only the noted head into the epic branch it was given', () => {
   const text = skill('ship-ticket');
-  assert.match(text, /merge only when the base step 3 chose is an `epic\/\*` branch[^\n]*SHA the PASS note sits on/);
-  assert.match(text, /git merge --no-ff --no-edit <noted sha>/);
+  assert.match(
+    text,
+    /merge only when the base step 3 chose is an `epic\/\*` branch[^\n]*SHA the PASS note sits on/,
+  );
+  assert.match(text, /git merge --no-ff -m "Merge #<pr> into <epic branch>" <noted sha>/);
+  assert.doesNotMatch(text, /--no-edit/);
   assert.match(text, /git push origin HEAD:refs\/heads\/<epic branch>/);
   assert.match(text, /never merges into the repository's default branch/);
 });
@@ -136,7 +157,10 @@ test('PRs into the default branch close their issue, and the board moves it to D
 });
 
 test('approved epic-review tickets are filed the way slice files them', () => {
-  assert.match(skill('run-epic'), /file each approved one the way `slice` does[^\n]*type label[^\n]*`Backlog`/);
+  assert.match(
+    skill('run-epic'),
+    /file each approved one the way `slice` does[^\n]*type label[^\n]*`Backlog`/,
+  );
 });
 
 test('the epic verify rule skips spikes, and the merge checks and Closes lines are pinned', () => {
@@ -159,9 +183,47 @@ test('setup-project creates a board named after the repository and links it only
 test('setup-project proposes a new board when the Board line points at a shared Project', () => {
   const setup = skill('setup-project');
   const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
-  assert.match(setup, /`Board` line points at a Project linked to other repositories[^\n]*say so[^\n]*propose a new one/i);
+  assert.match(
+    setup,
+    /`Board` line points at a Project linked to other repositories[^\n]*say so[^\n]*propose a new one/i,
+  );
   assert.match(setup, /never (change|touch)[^\n]*its Status options/i);
   assert.match(tracker, /repositories\(first: \d+\) \{ nodes \{ nameWithOwner \} \}/);
+});
+
+// The board's items endpoint returns no field values unless the request names the field.
+test('tracker.md reads a ticket Status by asking the items endpoint for the Status field', () => {
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(tracker, /\$B\/items[^\n]*fields\[\]=<status field id>/);
+  assert.match(tracker, /select\(\.name == "Status"\) \| \.value\.name\.raw/);
+});
+
+test("tracker.md maps a new Project's Todo, In Progress and Done ids onto the eng-flow Status", () => {
+  const tracker = readFileSync(reference('setup-project', 'tracker.md'), 'utf8');
+  assert.match(
+    tracker,
+    /new Project[^\n]*`Todo`[^\n]*`Backlog`[^\n]*`In Progress`[^\n]*`In progress`[^\n]*`Done`[^\n]*`Done`/,
+  );
+});
+
+test("setup-project names the Project's built-in workflows that move a Status and which stay on", () => {
+  const setup = skill('setup-project');
+  for (const workflow of [
+    'Item added to project',
+    'Item closed',
+    'Item reopened',
+    'Pull request merged',
+    'Pull request linked to issue',
+    'Code changes requested',
+    'Code review approved',
+  ]) {
+    assert.match(setup, new RegExp(`\`${workflow}\``));
+  }
+  assert.match(
+    setup,
+    /Keep[^\n]*`Item added to project`[^\n]*`Item closed`[^\n]*`Pull request merged`[^\n]*on/,
+  );
+  assert.match(setup, /turn off[^\n]*`Item reopened`[^\n]*`Pull request linked to issue`/i);
 });
 
 test('setup-project asks whether agents use their own GitHub account and writes the login or none', () => {
@@ -183,6 +245,21 @@ test('the Claude Code reference sets the agent account in .claude/settings.local
   }
 });
 
+// GitHub's fine-grained tokens reach neither a user-owned Project nor a repository where the account is a collaborator.
+test('the Claude Code reference names the classic token for a user-owned Project and a collaborator on this repository only', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /user-owned Project[^\n]*classic token[^\n]*`repo`[^\n]*`project`/);
+  assert.match(harness, /collaborator on this repository only/);
+});
+
+test('the Claude Code reference writes no token until .gitignore covers .claude/settings.local.json', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /`git check-ignore \.claude\/settings\.local\.json` prints nothing[^\n]*add[^\n]*`\.gitignore`[^\n]*write no token until/,
+  );
+});
+
 // With no agent account the owner's own login runs the flow, so the check must not fire on `none`.
 test('with Agent account set, ship-ticket and run-epic stop with BLOCKED on another login', () => {
   for (const name of ['ship-ticket', 'run-epic']) {
@@ -190,4 +267,141 @@ test('with Agent account set, ship-ticket and run-epic stop with BLOCKED on anot
     assert.match(text, /`Agent account`[^\n]*`gh api user --jq \.login`[^\n]*`BLOCKED`/, name);
     assert.match(text, /`Agent account`[^\n]*(missing|`none`)[^\n]*no check/i, name);
   }
+});
+
+// GitHub logins are case-insensitive, so `Agent account: Eng-Bot` must match `eng-bot`.
+test('ship-ticket and run-epic compare the agent login case-insensitively', () => {
+  for (const name of ['ship-ticket', 'run-epic']) {
+    assert.match(skill(name), /`gh api user --jq \.login`[^\n]*ignoring case/, name);
+  }
+});
+
+test('in the desktop app a launch on a turn a session report started waits for one owner message', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /turn (that )?a session's report started[^\n]*one (owner )?message from the owner[^\n]*`run-epic` thread/,
+  );
+  assert.match(skill('run-epic'), /harness refuses the launch[^\n]*ask the owner[^\n]*naming the ticket/i);
+});
+
+test('reviewers run as foreground headless calls that leave their reports in .eng-flow/reviews', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /foreground headless `claude -p` call[^\n]*`\.eng-flow\/reviews\/`/);
+  assert.match(harness, /turn ends at a verdict note, a merge or `BLOCKED`/);
+  const ship = skill('ship-ticket');
+  assert.match(ship, /`\.eng-flow\/reviews\/<head sha>-<reviewer>\.md`[^\n]*returns only that it finished/);
+  assert.doesNotMatch(ship, /stay in this session/);
+  assert.match(ship, /`\.eng-flow\/\.gitignore` with `\*` when it is missing/);
+  assert.match(harness, /Bash\(gh pr checks:\*\)[^\n]*`Checks` line/);
+  assert.match(harness, /without a `PASS` or `FAIL` verdict[^\n]*`\.err`/);
+});
+
+test('each ticket session starts with wake_when_done', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /`start_session`[^\n]*`wake_when_done: true`/);
+});
+
+test('verify-as-user run as a reviewer returns its verdict and writes no note', () => {
+  const verify = skill('verify-as-user');
+  assert.match(verify, /run as a reviewer[^\n]*writes? no (verdict )?note/i);
+  assert.doesNotMatch(verify, /record the verdict on the commit/);
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /Reviewers, `verify-as-user` included,[^\n]*write no note/);
+  assert.match(notes, /`\.eng-flow\/reviews\/`/);
+  assert.match(skill('ship-ticket'), /edit nothing and write no note/);
+});
+
+test('Optional, Nit and FYI findings left on a PASS are proposed as follow-up tickets', () => {
+  const notes = readFileSync(reference('code-review', 'verdict-notes.md'), 'utf8');
+  assert.match(notes, /no `Critical` or `Required` finding is open or `still open`/);
+  assert.match(notes, /`Optional`, `Nit` and `FYI` findings[^\n]*do not block `PASS`[^\n]*follow-up tickets/);
+  assert.match(
+    skill('ship-ticket'),
+    /`Optional`, `Nit` and `FYI` findings[^\n]*PASS note[^\n]*follow-up tickets[^\n]*owner/,
+  );
+  const epic = skill('run-epic');
+  assert.match(epic, /`Optional`, `Nit` and `FYI` findings of its PASS note[^\n]*follow-up tickets/);
+  assert.match(
+    epic,
+    /`Optional`, `Nit` and `FYI` findings left on the epic's PASS note[^\n]*follow-up tickets/,
+  );
+});
+
+test('the reviewer brief tells each reviewer to read its skill references', () => {
+  assert.match(skill('ship-ticket'), /the skill to follow and the `references\/` files it links/);
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /skill file to follow[^\n]*`references\/` files that skill links/);
+});
+
+// run-epic adds each ticket worktree at the epic branch's head, so a config left uncommitted reaches no ticket session.
+test('setup-project ends by asking how the config reaches the default branch, and run-epic stops without it', () => {
+  const setup = skill('setup-project');
+  assert.match(setup, /end by asking the owner how `docs\/agents\/project\.md` reaches the default branch/i);
+  assert.doesNotMatch(setup, /Commit nothing/);
+  const runEpic = skill('run-epic');
+  assert.match(
+    runEpic,
+    /epic branch[^\n]*lacks `docs\/agents\/project\.md`[^\n]*`BLOCKED`[^\n]*naming the missing file/i,
+  );
+});
+
+test('setup-project asks which package checks belong in Checks when CI runs fewer, recommending the CI set', () => {
+  const setup = skill('setup-project');
+  assert.match(
+    setup,
+    /package or build files[^\n]*more checks than CI[^\n]*ask the owner which belong in `Checks`[^\n]*recommending the set CI runs/i,
+  );
+});
+
+test('for a project with no app, setup-project writes a Run line that says how a change is checked', () => {
+  const setup = skill('setup-project');
+  assert.match(setup, /no app[^\n]*`Run: no app`[^\n]*how a change is checked/i);
+  const config = readFileSync(reference('setup-project', 'project-config.md'), 'utf8');
+  assert.match(config, /`Run: no app`[^\n]*how a change is checked/);
+});
+
+test('ship-ticket sends work outside its criteria to the epic run-epic session instead of doing it', () => {
+  const ship = skill('ship-ticket');
+  assert.match(
+    ship,
+    /outside (the|its) ticket's criteria[^\n]*send it to the epic's `run-epic` session[^\n]*instead of doing it/i,
+  );
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(harness, /message to the `run-epic` session[^\n]*`SendMessage`/i);
+  assert.match(skill('run-epic'), /handoff[^\n]*how to reach this session/);
+});
+
+test('run-epic proposes out-of-scope work as a new ticket or an edit to an open one and files only what the owner approves', () => {
+  const epic = skill('run-epic');
+  assert.match(
+    epic,
+    /work a ticket session sends from outside its criteria[^\n]*new ticket[^\n]*edit to an open one[^\n]*only what the owner approves/i,
+  );
+});
+
+test('run-epic checks the ticket session before asking the owner a parked question', () => {
+  const epic = skill('run-epic');
+  assert.match(
+    epic,
+    /before asking the owner a parked question[^\n]*`## Decisions`[^\n]*ticket's (live )?session/i,
+  );
+});
+
+// A headless call gets only the tools its allow-list names, so it can drive no browser or simulator and save no capture.
+test('in a project with screens, verify-as-user runs in the ticket session and keeps its captures in .eng-flow/reviews', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /project with screens[^\n]*`verify-as-user` runs in the ticket session[^\n]*instead of a headless call/,
+  );
+  assert.match(harness, /captures[^\n]*`\.eng-flow\/reviews\/<head sha>-captures\/`/);
+});
+
+test('when the Run line names no command, verify-as-user gets the reviewer tools and no Bash for Run', () => {
+  const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
+  assert.match(
+    harness,
+    /`Run` line names no command[^\n]*`Run: no app`[^\n]*`verify-as-user` gets the same tools as the other reviewers/,
+  );
 });

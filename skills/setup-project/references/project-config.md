@@ -38,6 +38,8 @@ Anything the PR template does not already say.
 
 `Setup` is what a new worktree needs before its checks or its app run: installing dependencies, copying untracked files such as `.env`, and a port that does not collide with another session's.
 
+`Run` for a project with no app is `Run: no app` followed by how a change is checked, such as `Run: no app. Run npm test, then read the changed skill as an agent would and walk each criterion through it`. `verify-as-user` needs a check it can perform; a line that only says how to load the project gives it none.
+
 `Agent account` is the GitHub login agents act as, a machine account with write access to the repository. With a login, `ship-ticket` and `run-epic` stop when `gh` runs as anyone else. How a session gets that account depends on the harness; for Claude Code see [claude-code.md](../../ship-ticket/references/claude-code.md).
 
 `Board` is the GitHub Project of ticket states: `Backlog`, `In progress`, `Parked`, `In review`, `Done`. A ticket is Parked when its questions have no answer or it said `BLOCKED`; Parked does not count toward work in progress.

@@ -72,21 +72,21 @@ In each project, run `setup-project` once. It writes `docs/agents/project.md` wi
 
 ## Developing eng-flow
 
-Node 24, and the tools from Homebrew:
+Node 24. `npm ci` installs the linter and the formatter at the versions CI uses; the secrets scan needs `gitleaks` from Homebrew.
 
 ```bash
-brew install oxlint oxfmt gitleaks
+npm ci
 ```
 
 ```bash
-npm test
+npm test && npm run lint && npm run format:check
 ```
 
 ```bash
-npm run lint && npm run format:check && npm run secrets
+npm run secrets
 ```
 
-`node scripts/fetch-sources.mjs` clones the upstream repositories into `sources/` at the commits in `sources.json`, for reference; the folder is never committed. CI runs the tests. Linting, formatting and the secrets scan are for working on this repository and run locally; projects that install the plugin use their own checks.
+`node scripts/fetch-sources.mjs` clones the upstream repositories into `sources/` at the commits in `sources.json`, for reference; the folder is never committed. CI runs the same commands as the `Checks` line of `docs/agents/project.md`, and a test fails when the two differ. The secrets scan runs locally; projects that install the plugin use their own checks.
 
 ## Credits and licence
 

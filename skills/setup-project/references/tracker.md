@@ -62,6 +62,12 @@ gh api -X POST $B/items -f type=Issue -F id=<issue id> --jq .id
 # so match the repository as well as the number
 gh api "$B/items?per_page=100" --paginate --jq '.[] | select(.content.number == <number> and (.content.repository_url | endswith("/<owner>/<repo>"))) | .id'
 
+# Read a ticket's Status. Items carry no field values unless the request names the field
+gh api "$B/items/<item id>?fields[]=<status field id>" --jq '.fields[] | select(.name == "Status") | .value.name.raw'
+
+# Read every ticket's Status in one call
+gh api "$B/items?per_page=100&fields[]=<status field id>" --paginate --jq '.[] | {number: .content.number, repo: .content.repository_url, status: (.fields[] | select(.name == "Status") | .value.name.raw)}'
+
 # Move it: one field, the option id of the new Status
 gh api -X PATCH $B/items/<item id> --input - <<< '{"fields":[{"id":<status field id>,"value":"<option id>"}]}'
 ```
@@ -79,7 +85,8 @@ gh project link <n> --owner <owner> --repo <owner>/<repo>
 # Replace the Status options. An option passed without its id is created again with a new one,
 # and every item in it loses its Status: pass the current id of each option that stays (from the
 # fields call above) and leave it out only for a new option. Items in an option that disappears
-# lose their Status too, so on a project that already holds tickets move them first and show the owner which ones
+# lose their Status too, so on a project that already holds tickets move them first and show the owner which ones.
+# A new Project starts with `Todo`, `In Progress` and `Done`: pass `Todo`'s id as the `Backlog` id, `In Progress`'s as the `In progress` id and `Done`'s as the `Done` id, and leave the id out of `Parked` and `In review`, which are new
 gh project field-list <n> --owner <owner> --format json --jq '.fields[] | select(.name == "Status") | .id'
 gh api graphql -f field=<status node id> -f query='mutation($field: ID!) { updateProjectV2Field(input: {fieldId: $field, singleSelectOptions: [
   {id: "<Backlog id>", name: "Backlog", color: GRAY, description: ""},
@@ -89,7 +96,7 @@ gh api graphql -f field=<status node id> -f query='mutation($field: ID!) { updat
   {id: "<Done id>", name: "Done", color: GREEN, description: ""}]}) { projectV2Field { ... on ProjectV2SingleSelectField { options { name } } } } }'
 ```
 
-Check that the built-in workflow `Item closed` is on, since it moves a closed ticket to `Done`:
+List the Project's built-in workflows and whether each is on; `setup-project` says which stay on:
 
 ```bash
 gh api graphql -f query='query { user(login: "<login>") { projectV2(number: <n>) { workflows(first: 20) { nodes { name enabled } } } } }'
