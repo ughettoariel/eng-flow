@@ -230,11 +230,14 @@ test('in the desktop app a launch on a turn a session report started waits for o
 
 test('reviewers run as foreground headless calls that leave their reports in .eng-flow/reviews', () => {
   const harness = readFileSync(reference('ship-ticket', 'claude-code.md'), 'utf8');
-  assert.match(harness, /foreground headless call, `claude -p [^\n]*\.eng-flow\/reviews\//);
+  assert.match(harness, /foreground headless `claude -p` call[^\n]*`\.eng-flow\/reviews\/`/);
   assert.match(harness, /turn ends at a verdict note, a merge or `BLOCKED`/);
   const ship = skill('ship-ticket');
   assert.match(ship, /`\.eng-flow\/reviews\/<head sha>-<reviewer>\.md`[^\n]*returns only that it finished/);
   assert.doesNotMatch(ship, /stay in this session/);
+  assert.match(ship, /`\.eng-flow\/\.gitignore` with `\*` when it is missing/);
+  assert.match(harness, /Bash\(gh pr checks:\*\)[^\n]*`Checks` line/);
+  assert.match(harness, /without a `PASS` or `FAIL` verdict[^\n]*`\.err`/);
 });
 
 test('each ticket session starts with wake_when_done', () => {
