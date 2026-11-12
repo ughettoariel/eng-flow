@@ -25,7 +25,7 @@ Anything the PR template does not already say.
 | --- | --- | --- |
 | `Checks` | `implement`, `code-review` | The commands the README or CI runs |
 | `Setup` | `implement`, `verify-as-user` | None: a fresh checkout or worktree is ready as it is |
-| `Tickets` | `wayfinder`, `spec`, `slice`, `grill` | None: those skills ask the owner once and suggest `setup-project` |
+| `Tickets` | `wayfinder`, `spec`, `slice`, `grill`, `ship-ticket`, `run-epic` | None: those skills ask the owner once and suggest `setup-project`; `run-epic` needs `github` |
 | `Board` | `slice`, `ship-ticket`, `run-epic` | `none`: no board, and no skill moves a Status |
 | `Branches` | `ship-ticket`, `run-epic` | `{prefix}/{number}-{slug}`, the prefix from the type label as `ship-ticket` lists it; the epic is `epic/{number}-{slug}` |
 | `Sensitive paths` | `ship-ticket` | None: only the paths the size threshold already names |
