@@ -55,8 +55,9 @@ Open every PR as a draft:
 `main` as the base unless the owner names another. Repositories that do not
 allow drafts (private repositories on GitHub Free) refuse it: open the PR
 without `--draft`, with `[WIP] ` before the title, and say so in the session.
-It stays a draft until the project's checks, the review and the verification
-pass on its head; only then turn it ready with `gh pr ready <pr>`, or drop the
+It stays a draft until its head commit has a PASS verdict note, which covers the
+project's checks, the review and the verification (see
+[verdict-notes.md](../code-review/references/verdict-notes.md)); only then turn it ready with `gh pr ready <pr>`, or drop the
 `[WIP] ` prefix. Never push to the base branch directly. A PR into `main` is the
 owner's to merge.
 

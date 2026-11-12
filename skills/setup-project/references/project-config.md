@@ -8,6 +8,7 @@ eng-flow skills read `docs/agents/project.md` of the project. Every line is opti
 Checks: npm test && npm run lint
 Setup: npm ci && cp ../.env .env
 Tickets: github
+Board: https://github.com/users/octocat/projects/1
 Run: npm run dev, then open http://localhost:3000
 Design board: none
 Glossary: CONTEXT.md
@@ -23,12 +24,15 @@ Anything the PR template does not already say.
 | `Checks` | `implement`, `code-review` | The commands the README or CI runs |
 | `Setup` | `implement`, `verify-as-user` | None: a fresh checkout or worktree is ready as it is |
 | `Tickets` | `wayfinder`, `spec`, `slice`, `grill` | None: those skills ask the owner once and suggest `setup-project` |
+| `Board` | `slice`, `ship-ticket`, `run-epic` | `none`: no board, and no skill moves a Status |
 | `Run` | `verify-as-user` | Found from the README; a project verification skill named here wins |
 | `Design board` | `verify-as-user`, `file-pr` | `none`: captures go in the PR description |
 | `Glossary` | `grill`, `spec` | `CONTEXT.md` |
 | `ADRs` | `grill` | `docs/adr` |
 
 `Setup` is what a new worktree needs before its checks or its app run: installing dependencies, copying untracked files such as `.env`, and a port that does not collide with another session's.
+
+`Board` is the GitHub Project of ticket states: `Backlog`, `In progress`, `Parked`, `In review`, `Done`. A ticket is Parked when its questions have no answer or it said `BLOCKED`; Parked does not count toward work in progress.
 
 ## Tickets
 

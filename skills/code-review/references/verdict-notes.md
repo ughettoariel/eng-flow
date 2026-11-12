@@ -28,17 +28,19 @@ A fix commit may carry the trailer `Addresses: <sha>#F1`. It helps the next revi
 
 ## Commands
 
-```bash
-git fetch origin refs/notes/eng-flow:refs/notes/eng-flow   # before reading or writing
-git notes --ref=eng-flow show <sha>                        # read the verdict of a commit
-git notes --ref=eng-flow add -f -F note.txt <sha>          # write it
-git push origin refs/notes/eng-flow                        # publish it
-```
-
-Every ticket of the repository shares `refs/notes/eng-flow`, so a push can be refused because another session pushed first. Then merge theirs into yours and push again; notes on different commits never conflict:
+Every ticket of the repository shares `refs/notes/eng-flow`, so sync by merging the remote notes into yours, never by fetching over them: a plain fetch is refused once you hold a note you have not pushed.
 
 ```bash
-git fetch origin refs/notes/eng-flow:refs/notes/eng-flow-remote
-git notes --ref=eng-flow merge -s union refs/notes/eng-flow-remote
-git push origin refs/notes/eng-flow
+# Sync, before reading or writing. With no notes on the remote yet (the first round of a
+# repository), ls-remote exits 2 and there is nothing to merge
+if git ls-remote --exit-code origin refs/notes/eng-flow >/dev/null; then
+  git fetch origin +refs/notes/eng-flow:refs/notes/eng-flow-remote
+  git notes --ref=eng-flow merge -s union refs/notes/eng-flow-remote
+fi
+
+git notes --ref=eng-flow show <sha>                 # read the verdict of a commit
+git notes --ref=eng-flow add -f -F note.txt <sha>   # write it
+git push origin refs/notes/eng-flow                 # publish it; when refused, sync and push again
 ```
+
+Notes on different commits merge cleanly. Two notes on the same commit come out of the union merge concatenated, which can hold a PASS and a FAIL at once: rewrite that commit's note as one verdict from both before you push.

@@ -32,8 +32,9 @@ Ask for `Checks`, `Setup` or `Run` only when the repo left them unclear, and for
 
 1. Write `docs/agents/project.md` with only the lines that differ from their default, and show it to the owner.
 2. With `Tickets: github`, check that `gh auth status` passes and that `gh api repos/{owner}/{repo} --jq .permissions.push` prints `true`; otherwise say what is missing. Then create the labels once the owner said yes: `gh label create <name>` for each of these that the repository lacks, leaving existing ones as they are. Type, one per ticket, which also names its branch: `enhancement`, `bug`, `documentation` (GitHub creates these three in every new repository), `chore`, `refactor`. Flow: `epic`, `spike`, `security`, `ready-for-agent`, `ready-for-human`.
-3. Commit nothing; the owner decides whether the file goes in a PR.
+3. With `Tickets: github`, set up the board, the GitHub Project that holds each ticket's state. Ask whether to link a project the owner already has (`gh project list --owner <owner>`) or create one. Its `Status` field has exactly `Backlog`, `In progress`, `Parked`, `In review` and `Done`; [tracker.md](references/tracker.md) has the commands. Write the project's URL as the `Board` line. Projects need the `project` scope: when `gh auth status` lacks it, ask the owner to run `gh auth refresh -s project`.
+4. Commit nothing; the owner decides whether the file goes in a PR.
 
 ## Done
 
-`docs/agents/project.md` exists, the owner saw it, and the labels exist when the ticket flow is on GitHub.
+`docs/agents/project.md` exists, the owner saw it, and the labels and the board exist when the ticket flow is on GitHub.
