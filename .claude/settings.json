@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "ughettoariel": {
+      "source": { "source": "github", "repo": "ughettoariel/eng-flow" }
+    }
+  },
+  "enabledPlugins": {
+    "eng-flow@ughettoariel": true
+  }
+}
