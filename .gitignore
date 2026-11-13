@@ -5,3 +5,4 @@ sources/
 # Pending questions for the owner; skills park them here when no answer comes.
 .eng-flow/
 .claude/worktrees/
+.claude/settings.local.json
